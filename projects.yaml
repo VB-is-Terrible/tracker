@@ -1,0 +1,15 @@
+Get Mending:
+ - project: Build slime farm
+ - project: Build blaze farm
+ - project: Build mob farm
+ - project: Get more mending books
+   Progress: 3/6
+Get Iron Farm:
+ - project: Improve village
+ - project: Build transport hub
+ - project: Steal villagers
+ - project: Build iron farm
+Optional:
+ - project : Build Stable
+   Depends: None
+   Status: Done 
