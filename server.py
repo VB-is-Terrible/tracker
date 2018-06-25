@@ -23,7 +23,7 @@ def save():
         project_out = open(PROJECT, 'w')
         data_out = open(DATA, 'w')
         project_out.write(yaml.dump(persist))
-        data_out.write(yaml.dump())
+        data_out.write(yaml.dump(data))
         project_out.close()
         data_out.close()
 
