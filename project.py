@@ -23,12 +23,16 @@ class SuperProject(JSONable):
                 self.id = get_id()
 
 class Project(JSONable):
-        def __init__(self, objective, required = 2):
+        def __init__(self, objective, required = 2, id = None):
                 self.objective = objective
                 self.required = required
                 self.progress = 0
-                self.id = get_id()
+                if id == None:
+                        self.id = get_id()
+                else:
+                        self.id = id
                 self.dependencies = []
+                self.meta = 0
 
         @property
         def status(self):
