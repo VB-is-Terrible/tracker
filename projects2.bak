@@ -1,0 +1,63 @@
+- !!python/object:project.SuperProject
+  name: Get Iron Farm
+  projects:
+  - !!python/object:project.Project
+    dependencies: []
+    id: 1
+    objective: Improve village
+    progress: 0
+    required: 2
+  - !!python/object:project.Project
+    dependencies: []
+    id: 2
+    objective: Build transport hub
+    progress: 0
+    required: 2
+  - !!python/object:project.Project
+    dependencies: [2, 1]
+    id: 3
+    objective: Steal villagers
+    progress: 0
+    required: 2
+  - !!python/object:project.Project
+    dependencies: [3]
+    id: 4
+    objective: Build iron farm
+    progress: 0
+    required: 2
+- !!python/object:project.SuperProject
+  name: Get Mending
+  projects:
+  - !!python/object:project.Project
+    dependencies: []
+    id: 5
+    objective: Build slime farm
+    progress: 0
+    required: 2
+  - !!python/object:project.Project
+    dependencies: [5]
+    id: 6
+    objective: Build blaze farm
+    progress: 0
+    required: 2
+  - !!python/object:project.Project
+    dependencies: [5]
+    id: 7
+    objective: Build mob farm
+    progress: 0
+    required: 2
+  - !!python/object:project.Project
+    dependencies: []
+    id: 8
+    objective: Get more mending books
+    progress: 3
+    required: 6
+- !!python/object:project.SuperProject
+  name: Optional
+  projects:
+  - !!python/object:project.Project
+    dependencies: []
+    id: 9
+    objective: Build Stable
+    progress: 1
+    required: 2

@@ -1,11 +1,6 @@
 import random
-
-class SuperProject():
-        def __init__(self, name):
-                self.name = name
-                self.projects = []
-
-ID_MAX = 2**63
+from json import JSONEncoder
+from common import JSONable
 
 STATUS_CODES = {
         0: 'Not started',
@@ -13,12 +8,26 @@ STATUS_CODES = {
         2: 'Completed'
 }
 
-class Project():
-        def __init__(self, objective, required = 1):
+CURRENT_ID = None
+
+def get_id():
+        global CURRENT_ID
+        temp = CURRENT_ID
+        CURRENT_ID += 1
+        return temp
+
+class SuperProject(JSONable):
+        def __init__(self, name):
+                self.name = name
+                self.projects = []
+                self.id = get_id()
+
+class Project(JSONable):
+        def __init__(self, objective, required = 2):
                 self.objective = objective
                 self.required = required
                 self.progress = 0
-                self.id = random.randint(0, ID_MAX)
+                self.id = get_id()
                 self.dependencies = []
 
         @property
@@ -29,3 +38,10 @@ class Project():
                         return 1
                 else:
                         return 2
+
+class ProjectEncoder(JSONEncoder):
+        def default(self, o):
+                try:
+                        return o.json()
+                except AttributeError:
+                        super().default(o)

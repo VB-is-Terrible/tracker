@@ -1,63 +1,69 @@
-- !!python/object:__main__.SuperProject
-  name: Get Iron Farm
+!!python/object:system.System
   projects:
-  - !!python/object:__main__.Project
-    dependencies: []
-    id: 1599507273469829771
-    objective: Improve village
-    progress: 0
-    required: 1
-  - !!python/object:__main__.Project
-    dependencies: []
-    id: 7930351285578977301
-    objective: Build transport hub
-    progress: 0
-    required: 1
-  - !!python/object:__main__.Project
-    dependencies: [7930351285578977301, 1599507273469829771]
-    id: 8790338688330540931
-    objective: Steal villagers
-    progress: 0
-    required: 1
-  - !!python/object:__main__.Project
-    dependencies: [8790338688330540931]
-    id: 3448628632524140159
-    objective: Build iron farm
-    progress: 0
-    required: 1
-- !!python/object:__main__.SuperProject
-  name: Get Mending
-  projects:
-  - !!python/object:__main__.Project
-    dependencies: []
-    id: 7739870770891095368
-    objective: Build slime farm
-    progress: 0
-    required: 1
-  - !!python/object:__main__.Project
-    dependencies: [7739870770891095368]
-    id: 2810973459813433367
-    objective: Build blaze farm
-    progress: 0
-    required: 1
-  - !!python/object:__main__.Project
-    dependencies: [7739870770891095368]
-    id: 6996288875744058767
-    objective: Build mob farm
-    progress: 0
-    required: 1
-  - !!python/object:__main__.Project
-    dependencies: []
-    id: 6315697999316452575
-    objective: Get more mending books
-    progress: 3
-    required: 6
-- !!python/object:__main__.SuperProject
-  name: Optional
-  projects:
-  - !!python/object:__main__.Project
-    dependencies: []
-    id: 6394056829013160280
-    objective: Build Stable
-    progress: 1
-    required: 1
+    - !!python/object:project.Project
+      dependencies: []
+      id: 1
+      objective: Improve village
+      progress: 0
+      required: 2
+    - !!python/object:project.Project
+      dependencies: []
+      id: 2
+      objective: Build transport hub
+      progress: 0
+      required: 2
+    - !!python/object:project.Project
+      dependencies: [2, 1]
+      id: 3
+      objective: Steal villagers
+      progress: 0
+      required: 2
+    - !!python/object:project.Project
+      dependencies: [3]
+      id: 4
+      objective: Build iron farm
+      progress: 0
+      required: 2
+    - !!python/object:project.Project
+      dependencies: []
+      id: 5
+      objective: Build slime farm
+      progress: 0
+      required: 2
+    - !!python/object:project.Project
+      dependencies: [5]
+      id: 6
+      objective: Build blaze farm
+      progress: 0
+      required: 2
+    - !!python/object:project.Project
+      dependencies: [5]
+      id: 7
+      objective: Build mob farm
+      progress: 0
+      required: 2
+    - !!python/object:project.Project
+      dependencies: []
+      id: 8
+      objective: Get more mending books
+      progress: 3
+      required: 6
+    - !!python/object:project.Project
+      dependencies: []
+      id: 9
+      objective: Build Stable
+      progress: 1
+      required: 2
+  superprojects:
+    - !!python/object:project.SuperProject
+      name: Get Iron Farm
+      projects: [1,2,3,4]
+      id: 10
+    - !!python/object:project.SuperProject
+      name: Get Mending
+      projects: [5,6,7,8]
+      id: 11
+    - !!python/object:project.SuperProject
+      name: Optional
+      projects: [9]
+      id: 12
