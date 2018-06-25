@@ -2,15 +2,17 @@ from flask import Flask, Response
 from flask import render_template, request, redirect, url_for, abort, send_from_directory, jsonify
 import json, yaml
 import project
-from server import app, load, save
+from server import app, load, save, data
 
 @app.route('/')
 def index():
-        content = open('projects2.yaml').read()
-        return Response(content, mimetype='text/html')
-        return send_from_directory('./', 'projects2.yaml')
+        return send_from_directory('./', 'projects.html')
         # return send_from_directory('./main.html')
 
+@app.route('/start')
+def start():
+        return json.dumps(data, cls=project.JSONEncoder())
+        
 @app.route('/elements/<file>')
 def elements(file):
-        return send_from_directory('elements', path)
+        return send_from_directory('elements', file)
