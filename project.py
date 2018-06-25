@@ -16,12 +16,6 @@ def get_id():
         CURRENT_ID += 1
         return temp
 
-class SuperProject(JSONable):
-        def __init__(self, name):
-                self.name = name
-                self.projects = []
-                self.id = get_id()
-
 class Project(JSONable):
         def __init__(self, objective, required = 2, id = None):
                 self.objective = objective
@@ -42,6 +36,11 @@ class Project(JSONable):
                         return 1
                 else:
                         return 2
+
+        def json(self):
+                result = super().json()
+                result['type'] = 'Project'
+                return result
 
 class ProjectEncoder(JSONEncoder):
         def default(self, o):
