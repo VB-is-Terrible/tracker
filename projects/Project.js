@@ -97,10 +97,10 @@ Projects = {
 			project.meta = obj.meta;
 			return project
 		}
-	}
+	},
 	System: class System {
 		constructor() {
-			this.projects = [];
+			this.projects = new Map();
 		}
 		static fromJSON(json) {
 			return this.fromJSONObj(JSON.parse(json))
@@ -110,11 +110,11 @@ Projects = {
 				throw new Projects.ProjectParseError('Not a System');
 			}
 			let system = new Projects.System();
-			for (let projectObj of obj.projects) {
-				system.projects.push(project);
+			for (let project_key in obj.projects) {
+				let projectObj = obj.projects[project_key]
 				let project = Projects.Project.fromJSONObj(projectObj, system);
+				system.projects.set(project.id, project);
 			}
-
 			return system;
 		}
 		get_event_by_id (id) {
