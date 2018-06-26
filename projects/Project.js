@@ -122,3 +122,5 @@ Projects = {
 		}
 	}
 }
+
+Elements.loaded('projects-Project');
