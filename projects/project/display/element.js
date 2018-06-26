@@ -21,15 +21,16 @@ Elements.elements.ProjectsProjectDisplay = class ProjectsProjectDisplay extends 
 		let template = Elements.importTemplate(this.name);
 
 		//Fancy code goes here
-		this.applyPriorProperties('data');
 		shadow.appendChild(template);
+		this.applyPriorProperties('data');
 	}
 	get data() {
 		return this.__data;
 	}
 	set data(value) {
 		this.__data = value;
-		this.shadowRoot.querySelector('#text').innerHTML = value.
+		this.shadowRoot.querySelector('#name').innerHTML = value.name;
+		this.shadowRoot.querySelector('#status').innerHTML = value.status_code;
 	}
 };
 
