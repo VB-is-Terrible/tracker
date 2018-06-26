@@ -11,20 +11,21 @@ Projects = {
 		}
 	},
 	Project: class Project {
-		constructor (name, id, desc = '', required = 2) {
+		constructor (system, name, id, desc = '', required = 2) {
+			this.system = system;
 			this.name = name;
 			this.desc = desc;
 			this.dependencies = [];
-			this.id = id
+			this.id = id;
 			this.required = required;
 			this.progress = 0;
-			this.meta = 0
+			this.meta = 0;
 		}
 		static fromJSONObj(obj) {
 			if (obj.type !== 'Project') {
 				throw new Projects.ProjectParseError('Not a Project representation');
 			}
-			let project = new this(obj.name, obj.id, obj.desc, obj.required);
+			let project = new this(system, obj.name, obj.id, obj.desc, obj.required);
 			project.dependencies = obj.dependencies;
 			project.progress = obj.progress;
 			project.meta = obj.meta;
@@ -44,8 +45,8 @@ Projects = {
 			}
 			let system = new Projects.System();
 			for (let projectObj of obj.projects) {
-				let project = Projects.Project.fromJSONObj(projectObj);
 				system.projects.push(project);
+				let project = Projects.Project.fromJSONObj(projectObj, system);
 			}
 
 			return system;

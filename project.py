@@ -17,25 +17,51 @@ def get_id():
         return temp
 
 class Project(JSONable):
-        def __init__(self, objective, required = 2, id = None):
-                self.objective = objective
+        def __init__(self, system, name, required = 2, id = None):
+                self.name = name
                 self.required = required
                 self.progress = 0
+                self.system = system
                 if id == None:
                         self.id = get_id()
                 else:
                         self.id = id
                 self.dependencies = []
                 self.meta = 0
+                self.desc = ''
 
         @property
         def status(self):
-                if self.progress == 0:
-                        return 0
-                elif self.progress < self.required:
-                        return 1
+                if self.meta == 0:
+                        if self.progress == 0:
+                                depend_status = self._check_depends()
+                                if depend_status.major != MAX_STATUS:
+                                        return Status(0, 1)
+                                else:
+                                        return Status(0, 0)
+                        elif self.progress < self.required:
+                                return Status(PROGRESS_STATUS, 0)
+                        else:
+                                return Status(MAX_STATUS, 0)
+                elif self.meta == 1:
+                        return self._check_depends()
                 else:
-                        return 2
+                        return -1
+
+        def _check_depends(self):
+                progress = 0
+                completed = True
+                for depend in self.dependencies:
+                        project = self.system.get_event_by_id(depend)
+                        if project.status.major != MAX_STATUS:
+                                completed = False
+                        progress = max(progress, project.status.major)
+                if completed:
+                        return Status(MAX_STATUS)
+                elif progress > 0:
+                        return Status(PROGRESS_STATUS)
+                else:
+                        return Status(0)
 
         def json(self):
                 result = super().json()
