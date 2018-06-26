@@ -2,12 +2,38 @@ import random
 from json import JSONEncoder
 from common import JSONable
 
-STATUS_CODES = {
-        0: 'Not started',
-        1: 'In progress',
-        2: 'Completed'
-}
 
+class Status:
+        STATUS_CODES_MAJOR = {
+                0: 'Not started',
+                1: 'In progress',
+                2: 'Completed',
+                -1: 'Unknown status',
+        }
+        STATUS_CODES_MINOR = {
+                0: None,
+                1: 'Awaiting dependencies',
+        }
+        def __init__(self, major, minor = 0):
+                self.major = major
+                self.minor = minor
+
+        @property
+        def major_code(self):
+                return self.STATUS_CODES_MAJOR[self.major]
+
+        @property
+        def minor_code(self):
+                if self.minor != 0:
+                        return self.STATUS_CODES_MINOR[self.minor]
+                else:
+                        return self.major_code
+
+        def __str__(self):
+                return '({}, {}): {}'.format(self.major, self.minor, self.minor_code)
+
+MAX_STATUS = 2
+PROGRESS_STATUS = 1
 CURRENT_ID = None
 
 def get_id():
