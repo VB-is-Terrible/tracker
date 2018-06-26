@@ -63,8 +63,10 @@ class Project(JSONable):
                 else:
                         return Status(0)
 
+        excludes = set(['system'])
+
         def json(self):
-                result = super().json()
+                result = super().json(self.excludes)
                 result['type'] = 'Project'
                 return result
 
