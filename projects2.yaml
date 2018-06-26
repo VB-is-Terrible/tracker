@@ -1,110 +1,110 @@
 &id001 !!python/object:system.System
 projects:
-- !!python/object:project.Project
-  dependencies: []
-  desc: ''
-  id: 1
-  meta: 0
-  name: Improve village
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: []
-  desc: ''
-  id: 2
-  meta: 0
-  name: Build transport hub
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: [2, 1]
-  desc: ''
-  id: 3
-  meta: 0
-  name: Steal villagers
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: [3]
-  desc: ''
-  id: 4
-  meta: 0
-  name: Build iron farm
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: []
-  desc: ''
-  id: 5
-  meta: 0
-  name: Build slime farm
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: [5]
-  desc: ''
-  id: 6
-  meta: 0
-  name: Build blaze farm
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: [5]
-  desc: ''
-  id: 7
-  meta: 0
-  name: Build mob farm
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: []
-  desc: ''
-  id: 8
-  meta: 0
-  name: Get more mending books
-  progress: 3
-  required: 6
-  system: *id001
-- !!python/object:project.Project
-  dependencies: []
-  desc: ''
-  id: 9
-  meta: 0
-  name: Build Stable
-  progress: 1
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: [1, 2, 3, 4]
-  desc: ''
-  id: 10
-  meta: 0
-  name: Get Iron Farm
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: [5, 6, 7, 8]
-  desc: ''
-  id: 11
-  meta: 0
-  name: Get Mending
-  progress: 0
-  required: 2
-  system: *id001
-- !!python/object:project.Project
-  dependencies: [9]
-  desc: ''
-  id: 12
-  meta: 0
-  name: Optional
-  progress: 0
-  required: 2
-  system: *id001
+  1: !!python/object:project.Project
+    dependencies: []
+    desc: ''
+    id: 1
+    meta: 0
+    name: Improve village
+    progress: 0
+    required: 2
+    system: *id001
+  2: !!python/object:project.Project
+    dependencies: []
+    desc: ''
+    id: 2
+    meta: 0
+    name: Build transport hub
+    progress: 0
+    required: 2
+    system: *id001
+  3: !!python/object:project.Project
+    dependencies: [2, 1]
+    desc: ''
+    id: 3
+    meta: 0
+    name: Steal villagers
+    progress: 0
+    required: 2
+    system: *id001
+  4: !!python/object:project.Project
+    dependencies: [3]
+    desc: ''
+    id: 4
+    meta: 0
+    name: Build iron farm
+    progress: 0
+    required: 2
+    system: *id001
+  5: !!python/object:project.Project
+    dependencies: []
+    desc: ''
+    id: 5
+    meta: 0
+    name: Build slime farm
+    progress: 0
+    required: 2
+    system: *id001
+  6: !!python/object:project.Project
+    dependencies: [5]
+    desc: ''
+    id: 6
+    meta: 0
+    name: Build blaze farm
+    progress: 0
+    required: 2
+    system: *id001
+  7: !!python/object:project.Project
+    dependencies: [5]
+    desc: ''
+    id: 7
+    meta: 0
+    name: Build mob farm
+    progress: 0
+    required: 2
+    system: *id001
+  8: !!python/object:project.Project
+    dependencies: []
+    desc: ''
+    id: 8
+    meta: 0
+    name: Get more mending books
+    progress: 3
+    required: 6
+    system: *id001
+  9: !!python/object:project.Project
+    dependencies: []
+    desc: ''
+    id: 9
+    meta: 0
+    name: Build Stable
+    progress: 1
+    required: 2
+    system: *id001
+  10: !!python/object:project.Project
+    dependencies: [1, 2, 3, 4]
+    desc: ''
+    id: 10
+    meta: 0
+    name: Get Iron Farm
+    progress: 0
+    required: 2
+    system: *id001
+  11: !!python/object:project.Project
+    dependencies: [5, 6, 7, 8]
+    desc: ''
+    id: 11
+    meta: 0
+    name: Get Mending
+    progress: 0
+    required: 2
+    system: *id001
+  12: !!python/object:project.Project
+    dependencies: [9]
+    desc: ''
+    id: 12
+    meta: 0
+    name: Optional
+    progress: 0
+    required: 2
+    system: *id001
