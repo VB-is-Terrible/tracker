@@ -11,8 +11,13 @@ def index():
 
 @app.route('/start')
 def start():
-        return json.dumps(data, cls=project.JSONEncoder())
-        
-@app.route('/elements/<file>')
-def elements(file):
-        return send_from_directory('elements', file)
+        return json.dumps(data, cls=project.ProjectEncoder)
+
+@app.route('/elements/<path:path>')
+def elements(path):
+        return send_from_directory('elements', path)
+
+
+@app.route('/main.js')
+def mainjs():
+        return send_from_directory('./', 'main.js')
