@@ -1,10 +1,10 @@
 'use strict';
 
-Elements.get();
+Elements.get('projects-Project');
 {
 const main = async () => {
 
-await Elements.get();
+await Elements.get('projects-Project');
 /**
  * [ProjectsProjectDisplay Description]
  * @augments Elements.elements.backbone2
@@ -29,8 +29,45 @@ Elements.elements.ProjectsProjectDisplay = class ProjectsProjectDisplay extends 
 	}
 	set data(value) {
 		this.__data = value;
-		this.shadowRoot.querySelector('#name').innerHTML = value.name;
-		this.shadowRoot.querySelector('#status').innerHTML = value.status_code;
+		this.shadowRoot.querySelector('.name').innerHTML = value.name;
+		let status = value.status;
+		let display = this.shadowRoot.querySelector('#status');
+		let desc = this.shadowRoot.querySelector('p.desc');
+		this.shadowRoot.querySelector('p.status').innerHTML = status.minor_code;
+		requestAnimationFrame((e) => {
+			desc.innerHTML = value.desc;
+			if (status.minor === 0) {
+				switch (status.major) {
+					case 0:
+						display.className = 'not_started';
+						break;
+					case 1:
+						display.className = 'in_progress';
+						break;
+					case 2:
+						display.className = 'finished';
+						break;
+					default:
+						display.className = 'error';
+				}
+			} else {
+				switch (status.minor) {
+					case 1:
+						display.className = 'awaiting';
+						break;
+					default:
+						display.className = 'error';
+				}
+			}
+		});
+		if (this.data.required > 2) {
+			let progress = this.shadowRoot.querySelector('p.progress');
+			requestAnimationFrame((e) => {
+				progress.innerHTML = this.data.progress.toString() + ' / ' +
+				                     this.data.required.toString();
+			});
+		}
+
 	}
 };
 
