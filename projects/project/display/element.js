@@ -36,27 +36,28 @@ Elements.elements.ProjectsProjectDisplay = class ProjectsProjectDisplay extends 
 		this.shadowRoot.querySelector('p.status').innerHTML = status.minor_code;
 		requestAnimationFrame((e) => {
 			desc.innerHTML = value.desc;
+			display.className = 'border';
 			if (status.minor === 0) {
 				switch (status.major) {
 					case 0:
-						display.className = 'not_started';
+						display.classList.add('not_started');
 						break;
 					case 1:
-						display.className = 'in_progress';
+						display.classList.add('in_progress');
 						break;
 					case 2:
-						display.className = 'finished';
+						display.classList.add('finished');
 						break;
 					default:
-						display.className = 'error';
+						display.classList.add('error');
 				}
 			} else {
 				switch (status.minor) {
 					case 1:
-						display.className = 'awaiting';
+						display.classList.add('awaiting');
 						break;
 					default:
-						display.className = 'error';
+						display.classList.add('error');
 				}
 			}
 		});
