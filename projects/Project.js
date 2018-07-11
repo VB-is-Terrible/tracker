@@ -1,3 +1,21 @@
+'use strict'
+
+/**
+ * @event Projects.Project#update
+ * @type {Object}
+ * @property {String} target Name of property changed
+ */
+
+/**
+ * Interface for display of a Projects.Project
+ * @interface ProjectDisplay
+ */
+/**
+ * @function update
+ * @description Fired upon a change event
+ * @name ProjectDisplay.update
+ * @param {Projects.Project#update} event Event been fired
+ */
 
 /**
  * Project namespace
@@ -40,20 +58,72 @@ Projects = {
 	},
 	Project: class Project {
 		constructor (system, name, id, desc = '', required = 2) {
-			this.system = system;
-			this.name = name;
-			this.desc = desc;
-			this.dependencies = [];
+			this._system = system;
+			this._name = name;
+			this._desc = desc;
+			this._dependencies = [];
 			this.id = id;
-			this.required = required;
-			this.progress = 0;
-			this.meta = 0;
+			this._required = required;
+			this._progress = 0;
+			this._meta = 0;
+			this._displays = new Set();
+		}
+		get name () {
+			return this._name;
+		}
+		set name (value) {
+			this._name = value;
+			this.dispatchUpdate();
+		}
+		get desc () {
+			return this._desc;
+		}
+		set desc (value) {
+			this._desc = value;
+			this.dispatchUpdate();
+		}
+		get dependencies () {
+			return this._dependencies;
+		}
+		set dependencies (value) {
+			this._dependencies = value;
+			this.dispatchUpdate();
+		}
+		get required () {
+			return this._required;
+		}
+		set required (value) {
+			this._required = value;
+			this.dispatchUpdate();
+		}
+		get progress () {
+			return this._progress;
+		}
+		set progress (value) {
+			this._progress = value;
+			this.dispatchUpdate();
+		}
+		get meta () {
+			return this._meta;
+		}
+		set meta (value) {
+			this._meta = value;
+			this.dispatchUpdate();
+		}
+		dispatchUpdate () {
+
+		}
+		addDisplay (display) {
+			this._displays.add(display);
+		}
+		removeDisplay (display) {
+			this._displays.delete(display);
 		}
 		_check_depends () {
 			let progress = 0
 			let completed = true;
 			for (let depend of this.dependencies) {
-				let project = this.system.get_event_by_id(depend);
+				let project = this._system.get_event_by_id(depend);
 				if (project.status.major !== Projects.MAX_STATUS) {
 					completed = false;
 				}
