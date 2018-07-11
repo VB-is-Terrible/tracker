@@ -1,6 +1,7 @@
 'use strict'
 
-Elements.get('projects-Project', 'projects-project-display');
+Elements.get('projects-Project', 'projects-project-display',
+             'drag-body', 'drag-element', 'projects-project-maker');
 let data;
 {
 const main = async () => {
