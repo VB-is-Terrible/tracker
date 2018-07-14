@@ -1,9 +1,9 @@
 import random
-from json import JSONEncoder
+from json import JSONEncoder, loads
 from common import JSONable
 
 
-class Status:
+class Status(JSONable):
         STATUS_CODES_MAJOR = {
                 0: 'Not started',
                 1: 'In progress',
@@ -43,7 +43,7 @@ def get_id():
         return temp
 
 class Project(JSONable):
-        def __init__(self, system, name, required = 2, id = None):
+        def __init__(self, system, name, required = 2, id = None, meta = 0):
                 self.name = name
                 self.required = required
                 self.progress = 0
@@ -55,6 +55,7 @@ class Project(JSONable):
                 self.dependencies = []
                 self.meta = 0
                 self.desc = ''
+                self.successors = []
 
         @property
         def status(self):
@@ -94,7 +95,24 @@ class Project(JSONable):
         def json(self):
                 result = super().json(self.excludes)
                 result['type'] = 'Project'
+                result['status'] = self.status
                 return result
+
+        @classmethod
+        def fromJSON(cls, json, system):
+                obj = loads(json)
+                return cls.fromJSONObj(obj, system)
+
+        @classmethod
+        def fromJSONObj(cls, obj, system):
+                name, required, meta, = obj['name'], obj['required'], obj['meta']
+                result = cls(system, name, required)
+                result.meta = obj['meta']
+                result.progress = obj['progress']
+                result.dependencies = obj['dependencies']
+                result.desc = obj['desc']
+                return result
+
 
 class ProjectEncoder(JSONEncoder):
         def default(self, o):
