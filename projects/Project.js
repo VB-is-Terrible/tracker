@@ -21,7 +21,7 @@
  * Project namespace
  * @namespace Projects
  */
-Projects = {
+const Projects = {
 	ProjectParseError: class extends Error {
 		constructor (...args) {
 			super(...args);
@@ -55,9 +55,13 @@ Projects = {
 				return this.major_code;
 			}
 		}
+		static fromJSONObj (obj) {
+			let status = new this(obj.major, obj.minor);
+			return status;
+		}
 	},
 	Project: class Project {
-		constructor (system, name, id, desc = '', required = 2) {
+		constructor (system, name, id, desc = '', required = 2, status = null) {
 			this._system = system;
 			this._name = name;
 			this._desc = desc;
@@ -66,7 +70,14 @@ Projects = {
 			this._required = required;
 			this._progress = 0;
 			this._meta = 0;
+			if (status !== null) {
+				this._status = status;
+			} else {
+				this._status = new Projects.Status(0);
+			}
+
 			this._displays = new Set();
+			this.type = 'Project';
 		}
 		get name () {
 			return this._name;
@@ -119,53 +130,32 @@ Projects = {
 		removeDisplay (display) {
 			this._displays.delete(display);
 		}
-		_check_depends () {
-			let progress = 0
-			let completed = true;
-			for (let depend of this.dependencies) {
-				let project = this._system.get_event_by_id(depend);
-				if (project.status.major !== Projects.MAX_STATUS) {
-					completed = false;
-				}
-				progress = Math.max(progress, project.status.major);
-			}
-			if (completed) {
-				return new Projects.Status(Projects.MAX_STATUS);
-			} else if (progress > 0) {
-				return new Projects.Status(0);
-			} else {
-				return new Projects.Status(-1);
-			}
+		get status () {
+			return this._status;
 		}
-		get status() {
-			if (this.meta === 0) {
-				if (this.progress === 0) {
-					let status = this._check_depends();
-					if (status.major === Projects.MAX_STATUS) {
-						return new Projects.Status(0, 1);
-					} else {
-						return new Projects.Status(0, 0);
-					}
-				} else if (this.progress < this.required) {
-					return new Projects.Status(Projects.PROGRESS_STATUS);
-				} else {
-					return new Projects.Status(Projects.MAX_STATUS);
-				}
-
-			}
+		set status (value) {
+			this._status = value;
+			this.dispatchUpdate();
 		}
-		get status_code() {
+		get status_code () {
 			return this.status.minor_code;
 		}
 		static fromJSONObj(obj, system) {
 			if (obj.type !== 'Project') {
 				throw new Projects.ProjectParseError('Not a Project representation');
 			}
-			let project = new this(system, obj.name, obj.id, obj.desc, obj.required);
+			let status = Projects.Status.fromJSONObj(obj.status);
+			let project = new this(system, obj.name, obj.id, obj.desc, obj.required, status);
 			project.dependencies = obj.dependencies;
 			project.progress = obj.progress;
 			project.meta = obj.meta;
 			return project
+		}
+		toJSON () {
+			return Elements.jsonIncludes(this, this.constructor.json_props);
+		}
+		static get json_props () {
+			return ['name', 'desc', 'dependencies', 'required', 'progress', 'meta'];
 		}
 	},
 	System: class System {
@@ -190,7 +180,141 @@ Projects = {
 		get_event_by_id (id) {
 			return this.projects.get(id);
 		}
+		async add_project (project) {
+			let message = JSON.stringify([project]);
+			console.log('Sending: ', message);
+			let form_data = new FormData();
+			form_data.append('create', message);
+			let fetch_promise;
+			try {
+				fetch_promise =  fetch(window.location + 'create', {
+					method: 'POST',
+					body: form_data,
+				});
+			} catch (e) {
+				alert('Failed to connect to server');
+				throw e;
+			}
+			try {
+				this.patch(fetch_promise);
+				return true;
+			} catch (e) {
+				return false;
+			}
+		}
+		async patch (promise) {
+			let patch;
+			try {
+				let response = await promise;
+				patch = await response.json();
+			} catch (e) {
+				alert('Bad response from server');
+				throw e;
+			}
+			console.log ('Would apply patch: ', patch);
+			for (let create of patch.create) {
+				this._patch_add_project(create);
+			}
+		}
+		async _patch_add_project (project_obj) {
+			let project = Projects.Project.fromJSONObj(project_obj, this);
+			this.projects.set(project.id, project);
+			// TODO: Move this into own element
+			let projects = document.querySelector('#projects');
+			let display = document.createElement('elements-projects-project-display');
+			display.data = project;
+			projects.append(display);
+
+		}
+
 	}
 }
 
 Elements.loaded('projects-Project');
+
+const test = () => {
+	const base1 = {
+		"type":"Project",
+		"name":"a",
+		"desc":"aa",
+		"dependencies":[],
+		"required":2,
+		"progress":0,
+		"meta":1,
+		"status": {
+			"major": 2,
+			"minor": 0,
+		},
+	};
+	const base2 = {
+		"type":"Project",
+		"name":"b",
+		"desc":"bb",
+		"dependencies":[],
+		"required":2,
+		"progress":0,
+		"meta":0,
+		"status": {
+			"major": 0,
+			"minor": 0,
+		},
+	};
+	const compare_project = (proj1, proj2) => {
+		const props = ['name', 'desc', 'required', 'progress', 'meta'];
+		for (let prop of props) {
+			if (proj1[prop] !== proj2[prop]) {
+				console.log('Mismatched property ', prop);
+				return false;
+			}
+		}
+		// Check depends
+		let [set1, set2] = [new Set(proj1.dependencies), new Set(proj2.dependencies)];
+		if (set1.size !== proj1.dependencies.length) {
+			console.log('Duplicate dependencies');
+			return false;
+		}
+		if (set2.size !== proj2.dependencies.length) {
+			console.log('Duplicate dependencies');
+			return false;
+		}
+		if (set1.size !== set2.size) {
+			console.log('Mismatched dependencies');
+		}
+		for (let depend of set1) {
+			if (!set2.has(depend)) {
+				console.log('Mismatched dependencies');
+				return false;
+			}
+		}
+		return true;
+	};
+	let promises = [];
+	for (let test of [base1, base2]) {
+		let resolve_f, reject_f;
+		let promise = new Promise((resolve, reject) => {
+			[resolve_f, reject_f] = [resolve, reject];
+		});
+		promises.push(promise);
+		const data1 = new Projects.System();
+		let project_js = Projects.Project.fromJSONObj(test, data1);
+
+		data1._patch_add_project = async (project_obj) => {
+			let project_py = Projects.Project.fromJSONObj(project_obj, data1);
+			if (!compare_project(project_js, project_py)) {
+				reject_f();
+			} else {
+				resolve_f();
+			}
+		};
+		data1.add_project(project_js);
+	}
+	(async () => {
+		try {
+			await Promise.all(promises);
+			console.log('Passed tests');
+		} catch (e) {
+			console.log('Failed tests');
+			throw e;
+		}
+	})();
+}
