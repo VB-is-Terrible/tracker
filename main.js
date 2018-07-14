@@ -15,6 +15,7 @@ const main = async () => {
 		display.data = data.get_event_by_id(project_id);
 		projects.append(display);
 	}
+        document.querySelector('elements-projects-project-maker').database = data;
 	console.log('done');
 }
 
