@@ -4,11 +4,12 @@ Elements.get('projects-Project');
 {
 const main = async () => {
 
-await Elements.get('projects-Project');
+await Elements.get('projects-Project', 'draggable-Common', 'draggable-item', 'draggable-container');
 /**
  * [ProjectsProjectDisplay Description]
  * @augments Elements.elements.backbone2
  * @type {Object}
+ * @implements DraggableParent
  */
 Elements.elements.ProjectsProjectDisplay = class ProjectsProjectDisplay extends Elements.elements.backbone2 {
 	constructor () {
@@ -69,6 +70,15 @@ Elements.elements.ProjectsProjectDisplay = class ProjectsProjectDisplay extends 
 			});
 		}
 
+	}
+	item_drag_start (caller, event) {
+		let target = Elements.common.draggable_controller.registerResource(
+			this.__data);
+		event.dataTransfer.setData('projects/common', target);
+		return;
+	}
+	item_drop (caller, event) {
+		return;
 	}
 };
 
