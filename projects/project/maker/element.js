@@ -4,7 +4,7 @@ Elements.get('drag-element', 'projects-Project');
 {
 const main = async () => {
 
-await Elements.get('drag-element');
+await Elements.get('drag-element', 'draggable-Common', 'draggable-container');
 /**
  * [ProjectsProjectMaker Description]
  * @augments Elements.elements.backbone2
