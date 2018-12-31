@@ -1,16 +1,17 @@
 'use strict';
 
-Elements.get('projects-Project');
+Elements.get('projects-Project', 'draggable-Common', 'draggable-item', 'draggable-container');
 {
 const main = async () => {
 
-await Elements.get('projects-Project', 'draggable-Common', 'draggable-item', 'draggable-container');
+await Elements.get('projects-Project');
 /**
  * [ProjectsProjectDisplay Description]
  * @augments Elements.elements.backbone2
  * @type {Object}
  * @implements DraggableParent
  */
+
 Elements.elements.ProjectsProjectDisplay = class ProjectsProjectDisplay extends Elements.elements.backbone2 {
 	constructor () {
 		super();
@@ -72,9 +73,7 @@ Elements.elements.ProjectsProjectDisplay = class ProjectsProjectDisplay extends 
 
 	}
 	item_drag_start (caller, event) {
-		let target = Elements.common.draggable_controller.registerResource(
-			this.__data);
-		event.dataTransfer.setData('projects/common', target);
+		event.dataTransfer.setData(Projects.common_type, this.__data.id);
 		return;
 	}
 	item_drop (caller, event) {
