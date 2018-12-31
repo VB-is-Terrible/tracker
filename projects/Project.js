@@ -227,8 +227,13 @@ const Projects = {
 
 		}
 
-	}
-}
+	},
+	/**
+	 * Standard datatype for dataTransfer when passing project ids to a unknown reciever
+	 * @type {String}
+	 */
+	common_type: 'projects/common',
+};
 
 Elements.loaded('projects-Project');
 
