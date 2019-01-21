@@ -6,8 +6,16 @@
 		<link rel='preload' href='elements/backbone.js' as='script'></link>
 		<link rel='preload' href='elements/manifest.js' as='script'></link>
 		<style>
-		#projects {
+		#p1 {
 			width: 300px;
+		}
+		#main {
+			display: flex;
+			flex-direction: row;
+		}
+		#disabler {
+			margin-left: 50px;
+			font-size: large;
 		}
 		</style>
 	</head>
@@ -15,10 +23,19 @@
 		<script src='elements/backbone.js'></script>
 		<script src='elements/manifest.js'></script>
 		<script src='main.js'></script>
-		<div id='projects'>
+		<div id='main'>
+			<div id='p1'>
+				<elements-draggable-container effect_allowed='link' drop_effect='none' id='projects' context='projects/common'>
+				</elements-draggable-container>
+			</div>
+			<div>
+				<button onclick="derp.centre();derp.disable()" id='disabler'>
+					Disable
+				</button>
+			</div>
 		</div>
 		<elements-drag-body>
-			<elements-drag-element>
+			<elements-drag-element id='derp'>
 				<elements-projects-project-maker></elements-projects-project-maker>
 			</elements-drag-element>
 		</elements-drag-body>
