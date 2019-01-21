@@ -2,11 +2,12 @@
 
 Elements.get('projects-Project', 'projects-project-display',
              'drag-body', 'drag-element', 'projects-project-maker');
+
 let DATA;
 {
 const main = async () => {
 	let request = Elements.request('/start');
-	await Elements.get('projects-Project');
+	await Elements.get('projects-Project', 'drag-element');
 	let json = await request;
 	DATA = Projects.System.fromJSON(json);
 	let projects = document.querySelector('#projects');
