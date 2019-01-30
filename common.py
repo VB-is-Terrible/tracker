@@ -1,5 +1,3 @@
-import json
-
 class JSONable():
         def json(self, excludes = set()):
                 result = {}
