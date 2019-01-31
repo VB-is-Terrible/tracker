@@ -1,4 +1,3 @@
-import random
 from json import JSONEncoder, loads
 from common import JSONable
 
@@ -14,6 +13,7 @@ class Status(JSONable):
                 0: None,
                 1: 'Awaiting dependencies',
         }
+
         def __init__(self, major, minor = 0):
                 self.major = major
                 self.minor = minor
@@ -32,9 +32,11 @@ class Status(JSONable):
         def __str__(self):
                 return '({}, {}): {}'.format(self.major, self.minor, self.minor_code)
 
+
 MAX_STATUS = 2
 PROGRESS_STATUS = 1
 CURRENT_ID = None
+
 
 def get_id():
         global CURRENT_ID
@@ -42,13 +44,14 @@ def get_id():
         CURRENT_ID += 1
         return temp
 
+
 class Project(JSONable):
         def __init__(self, system, name, required = 2, id = None, meta = 0):
                 self.name = name
                 self.required = required
                 self.progress = 0
                 self.system = system
-                if id == None:
+                if id is None:
                         self.id = get_id()
                 else:
                         self.id = id
@@ -105,7 +108,7 @@ class Project(JSONable):
 
         @classmethod
         def fromJSONObj(cls, obj, system):
-                name, required, meta, = obj['name'], obj['required'], obj['meta']
+                name, required, = obj['name'], obj['required']
                 result = cls(system, name, required)
                 result.meta = obj['meta']
                 result.progress = obj['progress']
