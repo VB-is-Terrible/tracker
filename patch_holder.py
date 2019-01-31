@@ -7,6 +7,7 @@ class PatchHolder(JSONable):
         def __init__(self, version: int):
                 self.version = version
                 self.patches = {}
+                self.current_patch = None
 
         def create_patch(self) -> Patch:
                 last = self.version
@@ -14,6 +15,7 @@ class PatchHolder(JSONable):
                 current = self.version
                 patch = Patch(last, current)
                 self.patches[last] = patch
+                self.current_patch = patch
                 return patch
 
         def _increment_version(self):
