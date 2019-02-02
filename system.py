@@ -1,14 +1,17 @@
 from common import JSONable
 import json
 import project as Project
-from patch import Patch
+from patch_holder import PatchHolder
+
 
 class System(JSONable):
 	def __init__(self):
 		self.projects = {}
-		self.patch = Patch()
+		self.patches = PatchHolder()
+		self.version = 0
 
 	excludes = set('patch')
+
 	def json(self):
 		result = super().json(self.excludes)
 		result['type'] = 'System'
@@ -20,16 +23,19 @@ class System(JSONable):
 	def add_project(self, project_obj):
 		project = Project.Project.fromJSONObj(project_obj, self)
 		self.projects[project.id] = project
-		print ('Saved project {}'.format(project.id))
-		self.patch.create.append(project)
+		print('Saved project {}'.format(project.id))
+		self.patches.current_patch.create.append(project)
 
 	def add_project_from_request(self, request):
+		self.patches.create_patch()
 		projects_json = request.form['create']
 		projects = json.loads(projects_json)
 		for project in projects:
 			self.add_project(project)
 
-	def new_patch(self):
-		patch = self.patch
-		self.patch = Patch()
-		return patch
+	def get_updates(self, foreign_version: int):
+		patches = self.patches.get_patches(foreign_version)
+		response = {}
+		response['verison'] = self.version
+		response['patches'] = patches
+		return response
