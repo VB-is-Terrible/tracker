@@ -18,7 +18,9 @@ def start():
 @app.route('/create', methods=['POST'])
 def project_create():
         data.add_project_from_request(request)
-        return json.dumps(data.new_patch(), cls=Project.ProjectEncoder)
+        version = int(request.form['version'])
+        return json.dumps(data.get_updates(version), cls=Project.ProjectEncoder)
+
 
 @app.route('/elements/<path:path>')
 def elements(path):
