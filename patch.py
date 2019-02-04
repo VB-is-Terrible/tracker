@@ -8,3 +8,4 @@ class Patch(JSONable):
                 self.delete = []
                 self.previous = previous
                 self.current = current
+        excludes = set(['previous', 'current'])

@@ -9,7 +9,6 @@ class System(JSONable):
 	def __init__(self):
 		self.projects = {}
 		self.patches = PatchHolder()
-		self.version = 0
 
 	excludes = set('patches')
 
@@ -41,3 +40,7 @@ class System(JSONable):
 		response['verison'] = self.version
 		response['patches'] = patches
 		return response
+
+	@property
+	def version(self):
+		return self.patches.version

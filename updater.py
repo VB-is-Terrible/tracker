@@ -28,7 +28,6 @@ updaters[1] = update1
 
 def update2(persist, data):
 	if persist['update_version'] == 2:
-		data.version = 0
 		del data.patch
 		patches = importlib.import_module('patch_holder')
 		data.patches = patches.PatchHolder(0)
