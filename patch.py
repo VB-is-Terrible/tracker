@@ -1,4 +1,6 @@
 from common import JSONable
+import json
+import project
 
 
 class Patch(JSONable):
@@ -12,3 +14,7 @@ class Patch(JSONable):
 
         def json(self):
                 return super().json(self.excludes)
+
+        def add_create(self, project: project.Project):
+                string = json.dumps(project, cls=project.ProjectEncoder)
+                self.create.append(string)

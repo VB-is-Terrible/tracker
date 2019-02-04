@@ -24,7 +24,7 @@ class System(JSONable):
 		project = Project.Project.fromJSONObj(project_obj, self)
 		self.projects[project.id] = project
 		print('Saved project {}'.format(project.id))
-		self.patches.current_patch.create.append(project)
+		self.patches.current_patch.add_create(project)
 
 	def add_project_from_request(self, request):
 		self.patches.create_patch()
