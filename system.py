@@ -2,6 +2,7 @@ from common import JSONable
 import json
 import project as Project
 from patch_holder import PatchHolder
+from server import save
 
 
 class System(JSONable):
@@ -32,6 +33,7 @@ class System(JSONable):
 		projects = json.loads(projects_json)
 		for project in projects:
 			self.add_project(project)
+		save()
 
 	def get_updates(self, foreign_version: int):
 		patches = self.patches.get_patches(foreign_version)
