@@ -11,7 +11,7 @@ class System(JSONable):
 		self.patches = PatchHolder()
 		self.version = 0
 
-	excludes = set('patch')
+	excludes = set('patches')
 
 	def json(self):
 		result = super().json(self.excludes)
