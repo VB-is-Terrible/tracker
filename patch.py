@@ -9,3 +9,6 @@ class Patch(JSONable):
                 self.previous = previous
                 self.current = current
         excludes = set(['previous', 'current'])
+
+        def json(self):
+                return super().json(self.excludes)
