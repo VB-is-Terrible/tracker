@@ -10,10 +10,11 @@ class System(JSONable):
 		self.projects = {}
 		self.patches = PatchHolder()
 
-	excludes = set('patches')
+	excludes = set(['patches'])
+	includes = set(['version'])
 
 	def json(self):
-		result = super().json(self.excludes)
+		result = super().json(self.excludes, self.includes)
 		result['type'] = 'System'
 		return result
 
