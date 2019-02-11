@@ -1,8 +1,32 @@
-&id001 !!python/object:system.System
-patch: !!python/object:patch.Patch
-  create: []
-  delete: []
-  update: []
+&id002 !!python/object:system.System
+patches: !!python/object:patch_holder.PatchHolder
+  current_patch: &id001 !!python/object:patch.Patch
+    create: ['{"dependencies": [5, 4], "desc": "", "id": 15, "meta": 0, "name": "b",
+        "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 1}}']
+    current: 3
+    delete: []
+    previous: 2
+    update: []
+  patches:
+    0: !!python/object:patch.Patch
+      create: ['{"dependencies": [5, 6], "desc": "", "id": 13, "meta": 0, "name":
+          "Test", "progress": 0, "required": 2, "successors": [], "type": "Project",
+          "status": {"major": 0, "minor": 1}}']
+      current: 1
+      delete: []
+      previous: 0
+      update: []
+    1: !!python/object:patch.Patch
+      create: ['{"dependencies": [13, 10, 7], "desc": "aa", "id": 14, "meta": 0, "name":
+          "a", "progress": 0, "required": 2, "successors": [], "type": "Project",
+          "status": {"major": 0, "minor": 1}}']
+      current: 2
+      delete: []
+      previous: 1
+      update: []
+    2: *id001
+  version: 3
 projects:
   1: !!python/object:project.Project
     dependencies: []
@@ -12,7 +36,7 @@ projects:
     name: Improve village
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   2: !!python/object:project.Project
     dependencies: []
     desc: ''
@@ -21,7 +45,7 @@ projects:
     name: Build transport hub
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   3: !!python/object:project.Project
     dependencies: [2, 1]
     desc: ''
@@ -30,7 +54,7 @@ projects:
     name: Steal villagers
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   4: !!python/object:project.Project
     dependencies: [3]
     desc: ''
@@ -39,7 +63,7 @@ projects:
     name: Build iron farm
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   5: !!python/object:project.Project
     dependencies: []
     desc: ''
@@ -48,7 +72,7 @@ projects:
     name: Build slime farm
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   6: !!python/object:project.Project
     dependencies: [5]
     desc: ''
@@ -57,7 +81,7 @@ projects:
     name: Build blaze farm
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   7: !!python/object:project.Project
     dependencies: [5]
     desc: ''
@@ -66,7 +90,7 @@ projects:
     name: Build mob farm
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   8: !!python/object:project.Project
     dependencies: []
     desc: ''
@@ -75,7 +99,7 @@ projects:
     name: Get more mending books
     progress: 3
     required: 6
-    system: *id001
+    system: *id002
   9: !!python/object:project.Project
     dependencies: []
     desc: ''
@@ -84,7 +108,7 @@ projects:
     name: Build Stable
     progress: 1
     required: 2
-    system: *id001
+    system: *id002
   10: !!python/object:project.Project
     dependencies: [1, 2, 3, 4]
     desc: ''
@@ -93,7 +117,7 @@ projects:
     name: Get Iron Farm
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   11: !!python/object:project.Project
     dependencies: [5, 6, 7, 8]
     desc: ''
@@ -102,7 +126,7 @@ projects:
     name: Get Mending
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
   12: !!python/object:project.Project
     dependencies: [9]
     desc: ''
@@ -111,4 +135,34 @@ projects:
     name: Optional
     progress: 0
     required: 2
-    system: *id001
+    system: *id002
+  13: !!python/object:project.Project
+    dependencies: [5, 6]
+    desc: ''
+    id: 13
+    meta: 0
+    name: Test
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  14: !!python/object:project.Project
+    dependencies: [13, 10, 7]
+    desc: aa
+    id: 14
+    meta: 0
+    name: a
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  15: !!python/object:project.Project
+    dependencies: [5, 4]
+    desc: ''
+    id: 15
+    meta: 0
+    name: b
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
