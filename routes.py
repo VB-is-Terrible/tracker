@@ -23,6 +23,7 @@ def project_create():
 
 
 @app.route('/elements/<path:path>')
+@app.route('/project/elements/<path:path>')
 def elements(path):
         return send_from_directory('elements', path)
 
@@ -30,3 +31,14 @@ def elements(path):
 @app.route('/main.js')
 def mainjs():
         return send_from_directory('./', 'main.js')
+
+
+@app.route('/project/main.js')
+def project_main():
+        return send_from_directory('./', 'project_main.js')
+
+
+@app.route('/project/<project_id>')
+def project(project_id):
+        print('Got request for {}'.format(project_id))
+        return send_from_directory('./', 'project_full.html')
