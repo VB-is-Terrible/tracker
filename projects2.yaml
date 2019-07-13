@@ -1,12 +1,12 @@
 &id002 !!python/object:system.System
 patches: !!python/object:patch_holder.PatchHolder
   current_patch: &id001 !!python/object:patch.Patch
-    create: ['{"dependencies": [5, 4], "desc": "", "id": 15, "meta": 0, "name": "b",
+    create: ['{"dependencies": [], "desc": "new2", "id": 17, "meta": 0, "name": "\"",
         "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
-        {"major": 0, "minor": 1}}']
-    current: 3
+        {"major": 0, "minor": 0}}']
+    current: 5
     delete: []
-    previous: 2
+    previous: 4
     update: []
   patches:
     0: !!python/object:patch.Patch
@@ -25,8 +25,24 @@ patches: !!python/object:patch_holder.PatchHolder
       delete: []
       previous: 1
       update: []
-    2: *id001
-  version: 3
+    2: !!python/object:patch.Patch
+      create: ['{"dependencies": [5, 4], "desc": "", "id": 15, "meta": 0, "name":
+          "b", "progress": 0, "required": 2, "successors": [], "type": "Project",
+          "status": {"major": 0, "minor": 1}}']
+      current: 3
+      delete: []
+      previous: 2
+      update: []
+    3: !!python/object:patch.Patch
+      create: ['{"dependencies": [], "desc": "new", "id": 16, "meta": 0, "name": "\"",
+          "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+          {"major": 0, "minor": 0}}']
+      current: 4
+      delete: []
+      previous: 3
+      update: []
+    4: *id001
+  version: 5
 projects:
   1: !!python/object:project.Project
     dependencies: []
@@ -162,6 +178,26 @@ projects:
     id: 15
     meta: 0
     name: b
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  16: !!python/object:project.Project
+    dependencies: []
+    desc: new
+    id: 16
+    meta: 0
+    name: '"'
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  17: !!python/object:project.Project
+    dependencies: []
+    desc: new2
+    id: 17
+    meta: 0
+    name: '"'
     progress: 0
     required: 2
     successors: []
