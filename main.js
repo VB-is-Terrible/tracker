@@ -1,7 +1,7 @@
 'use strict'
 
 Elements.get('projects-Project', 'projects-project-display',
-             'drag-body', 'drag-element', 'projects-project-maker');
+             'drag-body', 'drag-element', 'projects-project-maker', 'projects-project-editor');
 
 let DATA;
 {
@@ -17,7 +17,7 @@ const main = async () => {
 		projects.append(display);
 	}
 	console.log('done');
-}
+};
 
 main();
 }
