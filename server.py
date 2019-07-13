@@ -16,8 +16,8 @@ def load():
                 subprocess.call(['cp', 'project.empty', PROJECT])
         global data
         global project_persist
-        data = yaml.load(open(DATA))
-        project_persist = yaml.load(open(PROJECT))
+        data = yaml.load(open(DATA), Loader=yaml.UnsafeLoader)
+        project_persist = yaml.load(open(PROJECT), Loader=yaml.UnsafeLoader)
         project.CURRENT_ID = project_persist['project_id']
 
 
