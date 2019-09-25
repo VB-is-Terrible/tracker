@@ -46,7 +46,8 @@ def get_id():
 
 
 class Project(JSONable):
-        def __init__(self, system, name, required = 2, id = None, meta = 0):
+        def __init__(self, system, name, required = 2, id = None,
+                     meta = 0, counter = False):
                 self.name = name
                 self.required = required
                 self.progress = 0
@@ -59,6 +60,7 @@ class Project(JSONable):
                 self.meta = 0
                 self.desc = ''
                 self.successors = []
+                self.counter = counter
 
         @property
         def status(self):
@@ -109,8 +111,10 @@ class Project(JSONable):
         @classmethod
         def fromJSONObj(cls, obj, system):
                 name, required, = obj['name'], obj['required']
-                result = cls(system, name, required)
-                result.meta = obj['meta']
+                meta = obj['meta']
+                counter = obj['counter']
+                result = cls(system, name, required, meta = meta,
+                             counter = counter)
                 result.progress = obj['progress']
                 result.dependencies = obj['dependencies']
                 result.desc = obj['desc']

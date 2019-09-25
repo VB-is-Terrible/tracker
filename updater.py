@@ -1,7 +1,7 @@
 import importlib
 
 updaters = {}
-LAST_VERSION = 3
+LAST_VERSION = 4
 
 
 def update0(project_persist, data):
@@ -37,10 +37,26 @@ def update2(persist, data):
 updaters[2] = update2
 
 
+def update3(persist, data):
+	for project in data.projects.values():
+		if project.required == 2:
+			project.counter = False
+		else:
+			project.counter = True
+	persist['update_version'] = 4
+
+
+updaters[3] = update3
+
+
 def update(persist, data):
 	run = False
+	old_version = None
 	if persist['update_version'] != LAST_VERSION:
 		run = True
+		old_version = persist['update_version']
 	while persist['update_version'] != LAST_VERSION:
 		updaters[persist['update_version']](persist, data)
+	if run:
+		print('Updated from version {} to version {}'.format(old_version, persist['update_version']))
 	return run
