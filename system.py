@@ -38,7 +38,7 @@ class System(JSONable):
 	def get_updates(self, foreign_version: int):
 		patches = self.patches.get_patches(foreign_version)
 		response = {}
-		response['verison'] = self.version
+		response['version'] = self.version
 		response['patches'] = patches
 		return response
 
