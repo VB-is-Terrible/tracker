@@ -57,7 +57,7 @@ class Project(JSONable):
                 else:
                         self.id = id
                 self.dependencies = []
-                self.meta = 0
+                self.meta = meta
                 self.desc = ''
                 self.successors = []
                 self.counter = counter
