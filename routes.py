@@ -42,3 +42,9 @@ def project_main():
 def project(project_id):
         print('Got request for {}'.format(project_id))
         return send_from_directory('./', 'project_full.html')
+
+
+@app.route('/update', methods=['POST'])
+def update():
+        version = int(request.form['version'])
+        return json.dumps(data.get_updates(version), cls=Project.ProjectEncoder)
