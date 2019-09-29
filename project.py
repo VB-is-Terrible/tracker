@@ -46,7 +46,7 @@ def get_id():
 
 
 class Project(JSONable):
-        def __init__(self, system, name, required = 2, id = None,
+        def __init__(self, system, name, required = MAX_STATUS, id = None,
                      meta = 0, counter = False):
                 self.name = name
                 self.required = required
