@@ -123,3 +123,17 @@ class ChangeSet(JSONable):
                                 if obj['progress'] > obj['required']:
                                         raise InvalidProgressException(
                                                 'progress', 'ChangeSet')
+
+        @staticmethod
+        def validate_with_project(change_set, project):
+                if change_set.required is not None and \
+                   change_set.progress is None:
+                        if project.progress > change_set.required:
+                                raise InvalidProgressException(
+                                        'required', 'ChangeSet')
+                if change_set.counter is True and \
+                   change_set.required is None:
+                        if project.required != 2:
+                                raise InvalidProgressException(
+                                        'counter', 'ChangeSet')
+                pass
