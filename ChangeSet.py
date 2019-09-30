@@ -87,6 +87,8 @@ class ChangeSet(JSONable):
                         raise MissingFieldException('id', 'ChangeSet')
                 if type(obj['id']) is not int:
                         raise InvalidTypeException('id', 'ChangeSet', int)
+                if obj['id'] not in system.projects:
+                        raise InvalidIdException(obj['id'])
                 for prop in BASIC_PROPS + ARRAY_PROPS:
                         if prop not in obj:
                                 continue
