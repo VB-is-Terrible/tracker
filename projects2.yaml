@@ -1,50 +1,239 @@
 &id002 !!python/object:system.System
 patches: !!python/object:patch_holder.PatchHolder
   current_patch: &id001 !!python/object:patch.Patch
-    create: ['{"dependencies": [], "desc": "new2", "id": 17, "meta": 0, "name": "\"",
-        "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
-        {"major": 0, "minor": 0}}']
-    current: 5
+    create: []
+    current: 26
     delete: []
-    previous: 4
+    previous: 25
     update: []
   patches:
     0: !!python/object:patch.Patch
-      create: ['{"dependencies": [5, 6], "desc": "", "id": 13, "meta": 0, "name":
-          "Test", "progress": 0, "required": 2, "successors": [], "type": "Project",
-          "status": {"major": 0, "minor": 1}}']
+      create:
+      - '{"dependencies": [5, 6], "desc": "", "id": 13, "meta": 0, "name": "Test",
+        "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 1}}'
       current: 1
       delete: []
       previous: 0
       update: []
     1: !!python/object:patch.Patch
-      create: ['{"dependencies": [13, 10, 7], "desc": "aa", "id": 14, "meta": 0, "name":
-          "a", "progress": 0, "required": 2, "successors": [], "type": "Project",
-          "status": {"major": 0, "minor": 1}}']
+      create:
+      - '{"dependencies": [13, 10, 7], "desc": "aa", "id": 14, "meta": 0, "name":
+        "a", "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 1}}'
       current: 2
       delete: []
       previous: 1
       update: []
     2: !!python/object:patch.Patch
-      create: ['{"dependencies": [5, 4], "desc": "", "id": 15, "meta": 0, "name":
-          "b", "progress": 0, "required": 2, "successors": [], "type": "Project",
-          "status": {"major": 0, "minor": 1}}']
+      create:
+      - '{"dependencies": [5, 4], "desc": "", "id": 15, "meta": 0, "name": "b", "progress":
+        0, "required": 2, "successors": [], "type": "Project", "status": {"major":
+        0, "minor": 1}}'
       current: 3
       delete: []
       previous: 2
       update: []
     3: !!python/object:patch.Patch
-      create: ['{"dependencies": [], "desc": "new", "id": 16, "meta": 0, "name": "\"",
-          "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
-          {"major": 0, "minor": 0}}']
+      create:
+      - '{"dependencies": [], "desc": "new", "id": 16, "meta": 0, "name": "\"", "progress":
+        0, "required": 2, "successors": [], "type": "Project", "status": {"major":
+        0, "minor": 0}}'
       current: 4
       delete: []
       previous: 3
       update: []
-    4: *id001
-  version: 5
+    4: !!python/object:patch.Patch
+      create:
+      - '{"dependencies": [], "desc": "new2", "id": 17, "meta": 0, "name": "\"", "progress":
+        0, "required": 2, "successors": [], "type": "Project", "status": {"major":
+        0, "minor": 0}}'
+      current: 5
+      delete: []
+      previous: 4
+      update: []
+    5: !!python/object:patch.Patch
+      create:
+      - '{"dependencies": [8, 9], "desc": "Negative counter", "id": 18, "meta": 0,
+        "name": "Breaking things", "progress": 0, "required": "-7", "successors":
+        [], "type": "Project", "status": {"major": 0, "minor": 1}}'
+      current: 6
+      delete: []
+      previous: 5
+      update: []
+    6: !!python/object:patch.Patch
+      create:
+      - '{"dependencies": [], "desc": "test", "id": 19, "meta": 0, "name": "Progress
+        Test", "progress": 0, "required": "1", "successors": [], "type": "Project",
+        "status": {"major": 0, "minor": 0}}'
+      current: 7
+      delete: []
+      previous: 6
+      update: []
+    7: !!python/object:patch.Patch
+      create:
+      - '{"dependencies": [], "desc": "", "id": 20, "meta": 0, "name": "Progress Test
+        2", "progress": 0, "required": "2", "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 0}}'
+      current: 8
+      delete: []
+      previous: 7
+      update: []
+    8: !!python/object:patch.Patch
+      create:
+      - '{"dependencies": [], "desc": "", "id": 21, "meta": 0, "name": "Progress Test
+        3", "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 0}}'
+      current: 9
+      delete: []
+      previous: 8
+      update: []
+    9: !!python/object:patch.Patch
+      create:
+      - '{"dependencies": [], "desc": "Projects can input required values < 3", "id":
+        22, "meta": 0, "name": "Fix project progress", "progress": 0, "required":
+        2, "successors": [], "type": "Project", "status": {"major": 0, "minor": 0}}'
+      current: 10
+      delete: []
+      previous: 9
+      update: []
+    10: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "Something", "id": 23, "meta":
+        0, "name": "New format test", "progress": 0, "required": 2, "successors":
+        [], "type": "Project", "status": {"major": 0, "minor": 0}}'
+      current: 11
+      delete: []
+      previous: 10
+      update: []
+    11: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [5, 6], "desc": "", "id": 24, "meta":
+        0, "name": "MetaTest", "progress": 0, "required": 2, "successors": [], "type":
+        "Project", "status": {"major": 0, "minor": 1}}'
+      current: 12
+      delete: []
+      previous: 11
+      update: []
+    12: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [5, 6], "desc": "lsadflkfadslkadsf", "id":
+        25, "meta": 0, "name": "MetaTest", "progress": 0, "required": 2, "successors":
+        [], "type": "Project", "status": {"major": 0, "minor": 1}}'
+      current: 13
+      delete: []
+      previous: 12
+      update: []
+    13: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [5, 7, 8], "desc": "", "id": 26, "meta":
+        1, "name": "MetaTest", "progress": 0, "required": 2, "successors": [], "type":
+        "Project", "status": {"major": 1, "minor": 0}}'
+      current: 14
+      delete: []
+      previous: 13
+      update: []
+    14: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [4, 3], "desc": "", "id": 27, "meta":
+        1, "name": "Make a thing", "progress": 0, "required": 2, "successors": [],
+        "type": "Project", "status": {"major": 0, "minor": 0}}'
+      current: 15
+      delete: []
+      previous: 14
+      update: []
+    15: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 28, "meta": 1, "name":
+        "a;sdkfj", "progress": 0, "required": 2, "successors": [], "type": "Project",
+        "status": {"major": 2, "minor": 0}}'
+      current: 16
+      delete: []
+      previous: 15
+      update: []
+    16: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 29, "meta": 1, "name":
+        "fasdfj", "progress": 0, "required": 2, "successors": [], "type": "Project",
+        "status": {"major": 2, "minor": 0}}'
+      current: 17
+      delete: []
+      previous: 16
+      update: []
+    17: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 30, "meta": 0, "name":
+        "a", "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 0}}'
+      current: 18
+      delete: []
+      previous: 17
+      update: []
+    18: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 31, "meta": 0, "name":
+        "b", "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 0}}'
+      current: 19
+      delete: []
+      previous: 18
+      update: []
+    19: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 32, "meta": 0, "name":
+        "a", "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 0}}'
+      current: 20
+      delete: []
+      previous: 19
+      update: []
+    20: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 33, "meta": 0, "name":
+        "a", "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 0}}'
+      current: 21
+      delete: []
+      previous: 20
+      update: []
+    21: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 34, "meta": 0, "name":
+        "b", "progress": 0, "required": 2, "successors": [], "type": "Project", "status":
+        {"major": 0, "minor": 0}}'
+      current: 22
+      delete: []
+      previous: 21
+      update: []
+    22: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 35, "meta": 0, "name":
+        "update", "progress": 0, "required": 2, "successors": [], "type": "Project",
+        "status": {"major": 0, "minor": 0}}'
+      current: 23
+      delete: []
+      previous: 22
+      update: []
+    23: !!python/object:patch.Patch
+      create:
+      - '{"counter": false, "dependencies": [], "desc": "", "id": 36, "meta": 0, "name":
+        "update2", "progress": 0, "required": 2, "successors": [], "type": "Project",
+        "status": {"major": 0, "minor": 0}}'
+      current: 24
+      delete: []
+      previous: 23
+      update: []
+    24: !!python/object:patch.Patch
+      create: []
+      current: 25
+      delete: []
+      previous: 24
+      update: []
+    25: *id001
+  version: 26
 projects:
   1: !!python/object:project.Project
+    counter: false
     dependencies: []
     desc: ''
     id: 1
@@ -54,6 +243,7 @@ projects:
     required: 2
     system: *id002
   2: !!python/object:project.Project
+    counter: false
     dependencies: []
     desc: ''
     id: 2
@@ -63,7 +253,10 @@ projects:
     required: 2
     system: *id002
   3: !!python/object:project.Project
-    dependencies: [2, 1]
+    counter: false
+    dependencies:
+    - 2
+    - 1
     desc: ''
     id: 3
     meta: 0
@@ -72,7 +265,9 @@ projects:
     required: 2
     system: *id002
   4: !!python/object:project.Project
-    dependencies: [3]
+    counter: false
+    dependencies:
+    - 3
     desc: ''
     id: 4
     meta: 0
@@ -81,6 +276,7 @@ projects:
     required: 2
     system: *id002
   5: !!python/object:project.Project
+    counter: false
     dependencies: []
     desc: ''
     id: 5
@@ -90,7 +286,9 @@ projects:
     required: 2
     system: *id002
   6: !!python/object:project.Project
-    dependencies: [5]
+    counter: false
+    dependencies:
+    - 5
     desc: ''
     id: 6
     meta: 0
@@ -99,7 +297,9 @@ projects:
     required: 2
     system: *id002
   7: !!python/object:project.Project
-    dependencies: [5]
+    counter: false
+    dependencies:
+    - 5
     desc: ''
     id: 7
     meta: 0
@@ -108,6 +308,7 @@ projects:
     required: 2
     system: *id002
   8: !!python/object:project.Project
+    counter: true
     dependencies: []
     desc: ''
     id: 8
@@ -117,6 +318,7 @@ projects:
     required: 6
     system: *id002
   9: !!python/object:project.Project
+    counter: false
     dependencies: []
     desc: ''
     id: 9
@@ -126,7 +328,12 @@ projects:
     required: 2
     system: *id002
   10: !!python/object:project.Project
-    dependencies: [1, 2, 3, 4]
+    counter: false
+    dependencies:
+    - 1
+    - 2
+    - 3
+    - 4
     desc: ''
     id: 10
     meta: 0
@@ -135,7 +342,12 @@ projects:
     required: 2
     system: *id002
   11: !!python/object:project.Project
-    dependencies: [5, 6, 7, 8]
+    counter: false
+    dependencies:
+    - 5
+    - 6
+    - 7
+    - 8
     desc: ''
     id: 11
     meta: 0
@@ -144,7 +356,9 @@ projects:
     required: 2
     system: *id002
   12: !!python/object:project.Project
-    dependencies: [9]
+    counter: false
+    dependencies:
+    - 9
     desc: ''
     id: 12
     meta: 0
@@ -153,7 +367,10 @@ projects:
     required: 2
     system: *id002
   13: !!python/object:project.Project
-    dependencies: [5, 6]
+    counter: false
+    dependencies:
+    - 5
+    - 6
     desc: ''
     id: 13
     meta: 0
@@ -163,7 +380,11 @@ projects:
     successors: []
     system: *id002
   14: !!python/object:project.Project
-    dependencies: [13, 10, 7]
+    counter: false
+    dependencies:
+    - 13
+    - 10
+    - 7
     desc: aa
     id: 14
     meta: 0
@@ -173,7 +394,10 @@ projects:
     successors: []
     system: *id002
   15: !!python/object:project.Project
-    dependencies: [5, 4]
+    counter: false
+    dependencies:
+    - 5
+    - 4
     desc: ''
     id: 15
     meta: 0
@@ -183,6 +407,7 @@ projects:
     successors: []
     system: *id002
   16: !!python/object:project.Project
+    counter: false
     dependencies: []
     desc: new
     id: 16
@@ -193,11 +418,232 @@ projects:
     successors: []
     system: *id002
   17: !!python/object:project.Project
+    counter: false
     dependencies: []
     desc: new2
     id: 17
     meta: 0
     name: '"'
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  18: !!python/object:project.Project
+    counter: true
+    dependencies:
+    - 8
+    - 9
+    desc: Negative counter
+    id: 18
+    meta: 0
+    name: Breaking things
+    progress: 0
+    required: '-7'
+    successors: []
+    system: *id002
+  19: !!python/object:project.Project
+    counter: true
+    dependencies: []
+    desc: test
+    id: 19
+    meta: 0
+    name: Progress Test
+    progress: 0
+    required: '1'
+    successors: []
+    system: *id002
+  20: !!python/object:project.Project
+    counter: true
+    dependencies: []
+    desc: ''
+    id: 20
+    meta: 0
+    name: Progress Test 2
+    progress: 0
+    required: '2'
+    successors: []
+    system: *id002
+  21: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 21
+    meta: 0
+    name: Progress Test 3
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  22: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: Projects can input required values < 3
+    id: 22
+    meta: 0
+    name: Fix project progress
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  23: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: Something
+    id: 23
+    meta: 0
+    name: New format test
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  24: !!python/object:project.Project
+    counter: false
+    dependencies:
+    - 5
+    - 6
+    desc: ''
+    id: 24
+    meta: 0
+    name: MetaTest
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  25: !!python/object:project.Project
+    counter: false
+    dependencies:
+    - 5
+    - 6
+    desc: lsadflkfadslkadsf
+    id: 25
+    meta: 0
+    name: MetaTest
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  26: !!python/object:project.Project
+    counter: false
+    dependencies:
+    - 5
+    - 7
+    - 8
+    desc: ''
+    id: 26
+    meta: 1
+    name: MetaTest
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  27: !!python/object:project.Project
+    counter: false
+    dependencies:
+    - 4
+    - 3
+    desc: ''
+    id: 27
+    meta: 1
+    name: Make a thing
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  28: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 28
+    meta: 1
+    name: a;sdkfj
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  29: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 29
+    meta: 1
+    name: fasdfj
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  30: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 30
+    meta: 0
+    name: a
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  31: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 31
+    meta: 0
+    name: b
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  32: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 32
+    meta: 0
+    name: a
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  33: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 33
+    meta: 0
+    name: a
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  34: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 34
+    meta: 0
+    name: b
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  35: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 35
+    meta: 0
+    name: update
+    progress: 0
+    required: 2
+    successors: []
+    system: *id002
+  36: !!python/object:project.Project
+    counter: false
+    dependencies: []
+    desc: ''
+    id: 36
+    meta: 0
+    name: update2
     progress: 0
     required: 2
     successors: []
