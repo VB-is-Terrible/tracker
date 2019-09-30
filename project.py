@@ -41,7 +41,7 @@ MAX_STATUS = 2
 PROGRESS_STATUS = 1
 CURRENT_ID = None
 
-PROPS = ['id', 'name', 'desc', 'required', 'progress', 'meta', 'counter',
+PROPS = ['name', 'desc', 'required', 'progress', 'meta', 'counter',
          'dependencies']
 TYPES = {
         'id': int,
@@ -123,11 +123,11 @@ class Project(JSONable):
         @classmethod
         def fromJSON(cls, json, system):
                 obj = loads(json)
-                cls._validate_obj(obj, system)
                 return cls.fromJSONObj(obj, system)
 
         @classmethod
         def fromJSONObj(cls, obj, system):
+                cls._validate_obj(obj, system)
                 name, required, = obj['name'], obj['required']
                 meta = obj['meta']
                 counter = obj['counter']
@@ -164,7 +164,7 @@ class Project(JSONable):
                 if obj['required'] < obj['progress']:
                         raise InvalidProgressException(obj['progress'],
                                                        'progress')
-                if obj['counter'] and obj['required'] != 2:
+                if not obj['counter'] and obj['required'] != 2:
                         raise InvalidProgressException(obj['required'],
                                                        'required')
                 for id in obj['dependencies']:

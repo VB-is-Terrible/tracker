@@ -49,11 +49,11 @@ class ChangeSet(JSONable):
         @classmethod
         def fromJSON(cls, json, system):
                 obj = loads(json)
-                cls._validate_obj(obj, system)
-                return cls.fromJSONObj(obj)
+                return cls.fromJSONObj(obj, system)
 
         @classmethod
-        def fromJSONObj(cls, obj):
+        def fromJSONObj(cls, obj, system):
+                cls._validate_obj(obj, system)
                 id = obj.get('id', None)
                 if id is None:
                         raise InvalidIdException()
@@ -82,7 +82,7 @@ class ChangeSet(JSONable):
                 return result
 
         @staticmethod
-        def _validate_obj(cls, obj, system):
+        def _validate_obj(obj, system):
                 if 'id' not in obj:
                         raise MissingFieldException('id', 'ChangeSet')
                 if type(obj['id']) is not int:
@@ -100,6 +100,8 @@ class ChangeSet(JSONable):
                                         TYPES[prop]
                                 )
                 for prop in ARRAY_PROPS:
+                        if prop not in obj:
+                                continue
                         for id in obj[prop]:
                                 if type(id) is not int:
                                         raise InvalidTypeException(
@@ -115,7 +117,7 @@ class ChangeSet(JSONable):
                         if obj['required'] < 1:
                                 raise InvalidProgressException(
                                         'required', 'ChangeSet')
-                        if 'counter' in obj and obj['counter'] is True:
+                        if 'counter' in obj and obj['counter'] is False:
                                 if obj['required'] != 2:
                                         raise InvalidProgressException(
                                                 'required', 'ChangeSet')
@@ -131,7 +133,7 @@ class ChangeSet(JSONable):
                         if project.progress > change_set.required:
                                 raise InvalidProgressException(
                                         'required', 'ChangeSet')
-                if change_set.counter is True and \
+                if change_set.counter is False and \
                    change_set.required is None:
                         if project.required != 2:
                                 raise InvalidProgressException(
