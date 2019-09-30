@@ -48,3 +48,10 @@ def project(project_id):
 def update():
         version = int(request.form['version'])
         return json.dumps(data.get_updates(version), cls=Project.ProjectEncoder)
+
+
+@app.route('/change', methods=['POST'])
+def change():
+        data.change_project_from_request(request)
+        version = int(request.form['version'])
+        return json.dumps(data.get_updates(version), cls=Project.ProjectEncoder)
