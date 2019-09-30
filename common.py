@@ -8,6 +8,7 @@ def valid_property(object, property: str):
 
 class JSONable():
 	'''Class to define sane json system'''
+
 	def json(self, excludes = set(), includes = set()):
 		result = {}
 		class_dir = dir(type(self))
