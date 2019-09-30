@@ -146,24 +146,28 @@ class Project(JSONable):
                                 raise MissingFieldException(prop, 'Project')
                 for prop in PROPS:
                         if type(obj[prop]) is not TYPES[prop]:
-                                raise InvalidTypeException(prop, 'Project',
-                                                           TYPES[prop])
-                for id in obj.dependencies:
+                                raise InvalidTypeException(
+                                        type(obj[prop]),
+                                        prop,
+                                        'Project',
+                                        TYPES[prop])
+                for id in obj['dependencies']:
                         if type(id) is not int:
                                 raise InvalidTypeException(
+                                        type(id),
                                         'id',
                                         'Project.dependencies',
                                         int)
-                if obj.required < 1:
-                        raise InvalidProgressException(obj.required,
+                if obj['required'] < 1:
+                        raise InvalidProgressException(obj['required'],
                                                        'required')
-                if obj.required < obj.progress:
-                        raise InvalidProgressException(obj.progress,
+                if obj['required'] < obj['progress']:
+                        raise InvalidProgressException(obj['progress'],
                                                        'progress')
-                if obj.counter and obj.required != 2:
-                        raise InvalidProgressException(obj.required,
+                if obj['counter'] and obj['required'] != 2:
+                        raise InvalidProgressException(obj['required'],
                                                        'required')
-                for id in obj.dependencies:
+                for id in obj['dependencies']:
                         if id not in system.projects:
                                 raise InvalidIdException(id)
 
