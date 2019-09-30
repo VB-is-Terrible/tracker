@@ -1,6 +1,23 @@
 from json import loads
 from common import JSONable
-from ProjectError import InvalidIdException
+from ProjectError import InvalidIdException, MissingFieldException, \
+                         InvalidTypeException, InvalidProgressException
+
+
+BASIC_PROPS = ['name', 'desc', 'required',
+               'progress', 'meta', 'counter']
+ARRAY_PROPS = ['dependencies_add', 'dependencies_remove']
+TYPES = {
+        'id': int,
+        'name': str,
+        'desc': str,
+        'required': int,
+        'progress': int,
+        'meta': int,
+        'counter': bool,
+        'dependencies_add': list,
+        'dependencies_remove': list,
+}
 
 
 class ChangeSet(JSONable):
@@ -16,26 +33,23 @@ class ChangeSet(JSONable):
                 self.status = None
                 self.counter = None
 
-        BASIC_PROPS = ['name', 'desc', 'required',
-                       'progress', 'meta', 'counter']
-        ARRAY_PROPS = ['dependencies_add', 'dependencies_remove']
-
         def json(self):
                 result = {}
                 result['id'] = self.id
-                for prop in self.BASIC_PROPS:
+                for prop in BASIC_PROPS:
                         value = self.__getattribute__(prop)
                         if value is not None:
                                 result[prop] = value
-                for prop in self.ARRAY_PROPS:
+                for prop in ARRAY_PROPS:
                         value = self.__getattribute__(prop)
                         if len(value) != 0:
                                 result[prop] = value
                 return result
 
         @classmethod
-        def fromJSON(cls, json):
+        def fromJSON(cls, json, system):
                 obj = loads(json)
+                cls._validate_obj(obj, system)
                 return cls.fromJSONObj(obj)
 
         @classmethod
@@ -44,10 +58,10 @@ class ChangeSet(JSONable):
                 if id is None:
                         raise InvalidIdException()
                 result = cls(id)
-                for prop in cls.BASIC_PROPS:
+                for prop in BASIC_PROPS:
                         if prop in obj:
                                 result.__setattr__(prop, obj[prop])
-                for prop in cls.ARRAY_PROPS:
+                for prop in ARRAY_PROPS:
                         if prop in obj:
                                 result.__setattr__(prop, obj[prop])
                 return result
@@ -56,13 +70,54 @@ class ChangeSet(JSONable):
 
         def _col(self, prop: str):
                 prop_value = self.__getattribute__(prop)
-                return prop.ljust(self.FIRST_COLUMN) + \
-                        ': ' + str(prop_value) + '\n'
+                return (prop.ljust(self.FIRST_COLUMN)
+                        + ': ' + str(prop_value) + '\n')
 
         def __repr__(self):
                 result = self._col('id')
-                for prop in self.BASIC_PROPS:
+                for prop in BASIC_PROPS:
                         result += self._col(prop)
-                for prop in self.ARRAY_PROPS:
+                for prop in ARRAY_PROPS:
                         result += self._col(prop)
                 return result
+
+        @staticmethod
+        def _validate_obj(cls, obj, system):
+                if 'id' not in obj:
+                        raise MissingFieldException('id', 'ChangeSet')
+                if type(obj['id']) is not int:
+                        raise InvalidTypeException('id', 'ChangeSet', int)
+                for prop in BASIC_PROPS + ARRAY_PROPS:
+                        if prop not in obj:
+                                continue
+                        if type(obj[prop]) is not TYPES[prop]:
+                                raise InvalidTypeException(
+                                        type(obj[prop]),
+                                        prop,
+                                        'ChangeSet',
+                                        TYPES[prop]
+                                )
+                for prop in ARRAY_PROPS:
+                        for id in obj[prop]:
+                                if type(id) is not int:
+                                        raise InvalidTypeException(
+                                                type(id),
+                                                'id',
+                                                'ChangeSet.' + prop,
+                                                TYPES[prop]
+                                        )
+                                if id not in system.projects:
+                                        raise InvalidIdException(id)
+
+                if 'required' in obj:
+                        if obj['required'] < 1:
+                                raise InvalidProgressException(
+                                        'required', 'ChangeSet')
+                        if 'counter' in obj and obj['counter'] is True:
+                                if obj['required'] != 2:
+                                        raise InvalidProgressException(
+                                                'required', 'ChangeSet')
+                        if 'progress' in obj:
+                                if obj['progress'] > obj['required']:
+                                        raise InvalidProgressException(
+                                                'progress', 'ChangeSet')
