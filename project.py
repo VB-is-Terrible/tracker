@@ -1,5 +1,7 @@
 from json import JSONEncoder, loads
 from common import JSONable
+from ProjectError import InvalidIdException, InvalidTypeException, \
+                         MissingFieldException, InvalidProgressException
 
 
 class Status(JSONable):
@@ -30,12 +32,27 @@ class Status(JSONable):
                         return self.major_code
 
         def __str__(self):
-                return '({}, {}): {}'.format(self.major, self.minor, self.minor_code)
+                return '({}, {}): {}'.format(self.major,
+                                             self.minor,
+                                             self.minor_code)
 
 
 MAX_STATUS = 2
 PROGRESS_STATUS = 1
 CURRENT_ID = None
+
+PROPS = ['id', 'name', 'desc', 'required', 'progress', 'meta', 'counter',
+         'dependencies']
+TYPES = {
+        'id': int,
+        'name': str,
+        'desc': str,
+        'required': int,
+        'progress': int,
+        'meta': int,
+        'counter': bool,
+        'dependencies': list
+}
 
 
 def get_id():
@@ -106,6 +123,7 @@ class Project(JSONable):
         @classmethod
         def fromJSON(cls, json, system):
                 obj = loads(json)
+                cls._validate_obj(obj, system)
                 return cls.fromJSONObj(obj, system)
 
         @classmethod
@@ -118,7 +136,36 @@ class Project(JSONable):
                 result.progress = obj['progress']
                 result.dependencies = obj['dependencies']
                 result.desc = obj['desc']
+                # TODO: Add input validation
                 return result
+
+        @classmethod
+        def _validate_obj(cls, obj, system):
+                for prop in PROPS:
+                        if prop not in obj:
+                                raise MissingFieldException(prop, 'Project')
+                for prop in PROPS:
+                        if type(obj[prop]) is not TYPES[prop]:
+                                raise InvalidTypeException(prop, 'Project',
+                                                           TYPES[prop])
+                for id in obj.dependencies:
+                        if type(id) is not int:
+                                raise InvalidTypeException(
+                                        'id',
+                                        'Project.dependencies',
+                                        int)
+                if obj.required < 1:
+                        raise InvalidProgressException(obj.required,
+                                                       'required')
+                if obj.required < obj.progress:
+                        raise InvalidProgressException(obj.progress,
+                                                       'progress')
+                if obj.counter and obj.required != 2:
+                        raise InvalidProgressException(obj.required,
+                                                       'required')
+                for id in obj.dependencies:
+                        if id not in system.projects:
+                                raise InvalidIdException(id)
 
 
 class ProjectEncoder(JSONEncoder):
