@@ -1,7 +1,7 @@
 import importlib
 
 updaters = {}
-LAST_VERSION = 4
+LAST_VERSION = 6
 
 
 def update0(project_persist, data):
@@ -47,6 +47,26 @@ def update3(persist, data):
 
 
 updaters[3] = update3
+
+
+def update4(persist, data):
+	for project in data.projects.values():
+		project.required = int(project.required)
+	persist['update_version'] = 5
+
+
+updaters[4] = update4
+
+
+def update5(persist, data):
+	for patch in data.patches.patches.values():
+		if hasattr(patch, 'update'):
+			patch.change = patch.update
+			del patch.update
+	persist['update_version'] = 6
+
+
+updaters[5] = update5
 
 
 def update(persist, data):
