@@ -10,10 +10,11 @@ class InvalidIdException(InputException):
 
 
 class InvalidTypeException(InputException):
-        message = 'Invalid type for field <{}> in <{}>, expected <{}>'
+        message = 'Invalid type {} for field {} in {}, expected {}'
 
-        def __init__(self, missing_field: str, dict_name: str, expected):
-                super(self.message.format(missing_field, dict_name, expected))
+        def __init__(self, bad_type, missing_field: str, dict_name: str, expected):
+                super(self.message.format(bad_type, missing_field,
+                                          dict_name, expected))
 
 
 class MissingFieldException(InputException):
