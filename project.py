@@ -83,9 +83,22 @@ class Project(JSONable):
                 self.desc = ''
                 self.successors = []
                 self.counter = counter
+                self._status = Status(0, 0)
 
         @property
         def status(self):
+                return self._status
+
+        def update_status(self):
+                '''Recalculate the current status, returns whether the status changed'''
+                old_status = self._status
+                self._status = self._recalculate_status()
+                if self._status != old_status:
+                        return True
+                else:
+                        return False
+
+        def _recalculate_status(self):
                 if self.meta == 0:
                         if self.progress == 0:
                                 depend_status = self._check_depends()
@@ -118,9 +131,10 @@ class Project(JSONable):
                         return Status(0)
 
         excludes = set(['system'])
+        includes = set(['status'])
 
         def json(self):
-                result = super().json(self.excludes)
+                result = super().json(self.excludes, self.includes)
                 result['type'] = 'Project'
                 result['status'] = self.status
                 return result
@@ -141,7 +155,7 @@ class Project(JSONable):
                 result.progress = obj['progress']
                 result.dependencies = obj['dependencies']
                 result.desc = obj['desc']
-                # TODO: Add input validation
+                result.update_status()
                 return result
 
         @classmethod
