@@ -36,6 +36,11 @@ class Status(JSONable):
                                              self.minor,
                                              self.minor_code)
 
+        def __eq__(self, o):
+                if self.major == o.major and self.minor == o.minor:
+                        return True
+                else:
+                        return False
 
 MAX_STATUS = 2
 PROGRESS_STATUS = 1
