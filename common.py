@@ -12,11 +12,13 @@ class JSONable():
 	def json(self, excludes = set(), includes = set()):
 		result = {}
 		class_dir = dir(type(self))
-		props = [x for x in dir(self)
-			 if valid_property(self, x)
-			 and x not in class_dir
-			 and x not in excludes
-			 or x in includes]
+		props = [
+				x for x in dir(self)
+				if valid_property(self, x)
+				and x not in class_dir
+				and x not in excludes
+				or x in includes
+			]
 		for prop in props:
 			result[prop] = self.__getattribute__(prop)
 		return result
