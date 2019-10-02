@@ -138,4 +138,10 @@ class ChangeSet(JSONable):
                         if project.required != 2:
                                 raise InvalidProgressException(
                                         'counter', 'ChangeSet')
+                if change_set.required is None and \
+                   change_set.progress is not None:
+                        if project.required < change_set.progress:
+                                raise InvalidProgressException(
+                                        'progress', 'ChangeSet')
+
                 pass
