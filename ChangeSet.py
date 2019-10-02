@@ -126,6 +126,10 @@ class ChangeSet(JSONable):
                                         raise InvalidProgressException(
                                                 'progress', 'ChangeSet')
 
+                if 'progress' in obj:
+                        if obj['progress'] < 0:
+                                raise InvalidProgressException(
+                                        obj['progress'], 'ChangeSet.progress')
         @staticmethod
         def validate_with_project(change_set, project):
                 if change_set.required is not None and \

@@ -186,6 +186,11 @@ class Project(JSONable):
                 if not obj['counter'] and obj['required'] != 2:
                         raise InvalidProgressException(obj['required'],
                                                        'required')
+
+                if obj['progress'] < 0:
+                        raise InvalidProgressException(obj['required'],
+                                                       'progress')
+
                 for id in obj['dependencies']:
                         if id not in system.projects:
                                 raise InvalidIdException(id)
