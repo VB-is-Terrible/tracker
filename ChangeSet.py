@@ -116,15 +116,18 @@ class ChangeSet(JSONable):
                 if 'required' in obj:
                         if obj['required'] < 1:
                                 raise InvalidProgressException(
-                                        'required', 'ChangeSet')
+                                        obj['required'],
+                                        'ChangeSet.required')
                         if 'counter' in obj and obj['counter'] is False:
                                 if obj['required'] != 2:
                                         raise InvalidProgressException(
-                                                'required', 'ChangeSet')
+                                                obj['required'],
+                                                'ChangeSet.required')
                         if 'progress' in obj:
                                 if obj['progress'] > obj['required']:
                                         raise InvalidProgressException(
-                                                'progress', 'ChangeSet')
+                                                obj['progress'],
+                                                'ChangeSet.progress')
 
                 if 'progress' in obj:
                         if obj['progress'] < 0:
