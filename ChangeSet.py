@@ -1,7 +1,7 @@
 from json import loads
 from common import JSONable, check_duplicate_id
 from ProjectError import InvalidIdException, MissingFieldException, \
-                         InvalidTypeException, InvalidProgressException \
+                         InvalidTypeException, InvalidProgressException, \
                          DuplicateIdException
 
 
@@ -151,7 +151,6 @@ class ChangeSet(JSONable):
                                 if id not in system.projects:
                                         raise InvalidIdException(id)
 
-
         @staticmethod
         def validate_with_project(change_set, project):
                 if change_set.required is not None and \
@@ -171,3 +170,13 @@ class ChangeSet(JSONable):
                                         'progress', 'ChangeSet')
 
                 pass
+                if change_set.dependencies_add is not None:
+                        for id in change_set.dependencies_add:
+                                if id in project.dependencies:
+                                        raise DuplicateIdException(
+                                                id, 'project.dependencies')
+
+                if change_set.dependencies_remove is not None:
+                        for id in change_set.dependencies_remove:
+                                if id not in project.dependencies:
+                                        raise InvalidIdException(id)
