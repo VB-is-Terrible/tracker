@@ -1,7 +1,8 @@
 from json import JSONEncoder, loads
-from common import JSONable
+from common import JSONable, check_duplicate_id
 from ProjectError import InvalidIdException, InvalidTypeException, \
-                         MissingFieldException, InvalidProgressException
+                         MissingFieldException, InvalidProgressException, \
+                         DuplicateIdException
 
 
 class Status(JSONable):
@@ -41,6 +42,7 @@ class Status(JSONable):
                         return True
                 else:
                         return False
+
 
 MAX_STATUS = 2
 PROGRESS_STATUS = 1
@@ -194,6 +196,26 @@ class Project(JSONable):
                 for id in obj['dependencies']:
                         if id not in system.projects:
                                 raise InvalidIdException(id)
+
+                duplicate = check_duplicate_id(obj['dependencies'])
+                if duplicate:
+                        raise DuplicateIdException(id, 'dependencies')
+
+        def add_dependency(self, id: int):
+                if id in self.dependencies:
+                        raise DuplicateIdException(id, 'project.dependencies')
+                if id not in self.system.projects:
+                        raise InvalidIdException(id)
+                self.dependencies.append(id)
+                parent = self.system.get_event_by_id(id)
+                parent.successors.append(id)
+
+        def remove_dependency(self, id: int):
+                if id not in self.dependencies:
+                        raise InvalidIdException(id)
+                self.dependencies.remove(id)
+                parent = self.system.get_event_by_id(id)
+                parent.successors.remove(id)
 
 
 class ProjectEncoder(JSONEncoder):
