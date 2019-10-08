@@ -4,6 +4,7 @@ import project as Project
 from patch_holder import PatchHolder
 from server import save
 from ChangeSet import ChangeSet
+from collections import deque
 
 
 class System(JSONable):
@@ -71,7 +72,37 @@ class System(JSONable):
 		if change_set.name is not None:
 			target.name = change_set.name
 
+	def _complex_changes(self, change_set: ChangeSet):
+		target = self.get_event_by_id(change_set.id)
+		if change_set.counter is not None:
+			target.counter = change_set.counter
+		if change_set.progress is not None:
+			target.progress = change_set.progress
+		if change_set.required is not None:
+			target.required = change_set.required
+		# TODO: Cyclic detection
+		for id in change_set.dependencies_remove:
+			target.dependencies.remove(id)
+		for id in change_set.dependencies_remove:
+			target.dependencies.remove(id)
 
+	def _update_status(self, project_id: int):
+		changed_projects = []
+		to_check = deque([project_id])
+		while len(to_check) != 0:
+			id = to_check.popleft()
+			project = self.get_event_by_id(id)
+			changed = project.update_status()
+			if changed:
+				changed_projects.append(id)
+				to_check.extend(project.successors)
+		self._add_update_changes(changed_projects)
+
+	def _add_update_changes(self, changed_projects):
+		for project in changed_projects:
+			changes = ChangeSet(project)
+			changes.status = self.get_event_by_id(project).status
+			self.patches.current_patch.add_change(changes)
 
 	@property
 	def version(self):
