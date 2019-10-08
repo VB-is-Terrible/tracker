@@ -30,3 +30,10 @@ class InvalidProgressException(InputException):
 
         def __init__(self, invalid_value, field):
                 super().__init__(self.message.format(field, invalid_value))
+
+
+class DuplicateIdException(InputException):
+        message = 'Field \'{}\' has duplicate id <{}>'
+
+        def __init__(self, invalid_id: int, field):
+                super().__init__(self.message.format(field, invalid_id))

@@ -1,7 +1,8 @@
 from json import loads
-from common import JSONable
+from common import JSONable, check_duplicate_id
 from ProjectError import InvalidIdException, MissingFieldException, \
-                         InvalidTypeException, InvalidProgressException
+                         InvalidTypeException, InvalidProgressException \
+                         DuplicateIdException
 
 
 BASIC_PROPS = ['name', 'desc', 'required',
@@ -37,11 +38,11 @@ class ChangeSet(JSONable):
                 result = {}
                 result['id'] = self.id
                 for prop in BASIC_PROPS:
-                        value = self.__getattribute__(prop)
+                        value = getattr(self, prop)
                         if value is not None:
                                 result[prop] = value
                 for prop in ARRAY_PROPS:
-                        value = self.__getattribute__(prop)
+                        value = getattr(self, prop)
                         if len(value) != 0:
                                 result[prop] = value
                 return result
@@ -69,7 +70,7 @@ class ChangeSet(JSONable):
         FIRST_COLUMN = len('dependencies_remove')
 
         def _col(self, prop: str):
-                prop_value = self.__getattribute__(prop)
+                prop_value = getattr(self, prop)
                 return (prop.ljust(self.FIRST_COLUMN)
                         + ': ' + str(prop_value) + '\n')
 
@@ -81,14 +82,51 @@ class ChangeSet(JSONable):
                         result += self._col(prop)
                 return result
 
+        @classmethod
+        def _validate_obj(cls, obj, system):
+                cls._validate_obj_id(obj, system)
+                cls._validate_obj_prop_type(obj, system)
+
+                if 'required' in obj:
+                        if obj['required'] < 1:
+                                raise InvalidProgressException(
+                                        obj['required'],
+                                        'ChangeSet.required')
+                        if 'counter' in obj and obj['counter'] is False:
+                                if obj['required'] != 2:
+                                        raise InvalidProgressException(
+                                                obj['required'],
+                                                'ChangeSet.required')
+                        if 'progress' in obj:
+                                if obj['progress'] > obj['required']:
+                                        raise InvalidProgressException(
+                                                obj['progress'],
+                                                'ChangeSet.progress')
+
+                if 'progress' in obj:
+                        if obj['progress'] < 0:
+                                raise InvalidProgressException(
+                                        obj['progress'], 'ChangeSet.progress')
+
+                for field in ARRAY_PROPS:
+                        if field in obj:
+                                duplicate = check_duplicate_id(
+                                        getattr(obj, field))
+                                if duplicate:
+                                        raise DuplicateIdException(
+                                                duplicate, field)
+
         @staticmethod
-        def _validate_obj(obj, system):
+        def _validate_obj_id(obj, system):
                 if 'id' not in obj:
                         raise MissingFieldException('id', 'ChangeSet')
                 if type(obj['id']) is not int:
                         raise InvalidTypeException('id', 'ChangeSet', int)
                 if obj['id'] not in system.projects:
                         raise InvalidIdException(obj['id'])
+
+        @staticmethod
+        def _validate_obj_prop_type(obj, system):
                 for prop in BASIC_PROPS + ARRAY_PROPS:
                         if prop not in obj:
                                 continue
@@ -113,26 +151,7 @@ class ChangeSet(JSONable):
                                 if id not in system.projects:
                                         raise InvalidIdException(id)
 
-                if 'required' in obj:
-                        if obj['required'] < 1:
-                                raise InvalidProgressException(
-                                        obj['required'],
-                                        'ChangeSet.required')
-                        if 'counter' in obj and obj['counter'] is False:
-                                if obj['required'] != 2:
-                                        raise InvalidProgressException(
-                                                obj['required'],
-                                                'ChangeSet.required')
-                        if 'progress' in obj:
-                                if obj['progress'] > obj['required']:
-                                        raise InvalidProgressException(
-                                                obj['progress'],
-                                                'ChangeSet.progress')
 
-                if 'progress' in obj:
-                        if obj['progress'] < 0:
-                                raise InvalidProgressException(
-                                        obj['progress'], 'ChangeSet.progress')
         @staticmethod
         def validate_with_project(change_set, project):
                 if change_set.required is not None and \

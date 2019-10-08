@@ -1,3 +1,5 @@
+from typing import List
+
 def valid_property(object, property: str):
 	if property.startswith('_'):
 		return False
@@ -20,5 +22,15 @@ class JSONable():
 				or x in includes
 			]
 		for prop in props:
-			result[prop] = self.__getattribute__(prop)
+			result[prop] = getattr(self, prop)
 		return result
+
+
+def check_duplicate_id(ids: List[int]) -> int:
+	seen = set()
+	for id in ids:
+		if id in seen:
+			return id
+		seen.add(id)
+	else:
+		return False
