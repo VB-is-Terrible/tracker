@@ -92,7 +92,8 @@ class Project(JSONable):
                 return self._status
 
         def update_status(self):
-                '''Recalculate the current status, returns whether the status changed'''
+                '''Recalculate the current status, \
+                returns whether the status changed'''
                 old_status = self._status
                 self._status = self._recalculate_status()
                 if self._status != old_status:

@@ -1,5 +1,6 @@
 from typing import List
 
+
 def valid_property(object, property: str):
 	if property.startswith('_'):
 		return False
