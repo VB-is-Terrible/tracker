@@ -1,7 +1,7 @@
 import importlib
 
 updaters = {}
-LAST_VERSION = 6
+LAST_VERSION = 9
 
 
 def update0(project_persist, data):
@@ -69,6 +69,37 @@ def update5(persist, data):
 updaters[5] = update5
 
 
+def update6(persist, data):
+	for project in data.projects.values():
+		if not hasattr(project, '_status'):
+			Project = importlib.import_module('project')
+			project._status = Project.Status(0, 0)
+			project.update_status()
+	persist['update_version'] = 7
+
+
+updaters[6] = update6
+
+
+def update7(persist, data):
+	for project in data.projects.values():
+		if not hasattr(project, 'successors'):
+			project.successors = []
+	persist['update_version'] = 8
+
+
+def update8(persist, data):
+	for project in data.projects.values():
+		for id in project.dependencies:
+			parent = data.get_event_by_id(id)
+			parent.successors.append(project.id)
+	persist['update_version'] = 9
+
+
+updaters[7] = update7
+updaters[8] = update8
+
+
 def update(persist, data):
 	run = False
 	old_version = None
@@ -78,5 +109,6 @@ def update(persist, data):
 	while persist['update_version'] != LAST_VERSION:
 		updaters[persist['update_version']](persist, data)
 	if run:
-		print('Updated from version {} to version {}'.format(old_version, persist['update_version']))
+		print('Updated from version {} to version {}'.format(
+			old_version, persist['update_version']))
 	return run
