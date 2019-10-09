@@ -5,6 +5,7 @@ from patch_holder import PatchHolder
 from server import save
 from ChangeSet import ChangeSet
 from collections import deque
+from typing import List
 
 
 class System(JSONable):
@@ -58,6 +59,7 @@ class System(JSONable):
 		print(change_set)
 		target = self.get_event_by_id(change_set.id)
 		ChangeSet.validate_with_project(change_set, target)
+		self._cyclic_detection(change_set.id, change_set)
 		self._simple_changes(change_set)
 		self.patches.current_patch.add_change(change_set)
 
@@ -98,11 +100,14 @@ class System(JSONable):
 				to_check.extend(project.successors)
 		self._add_update_changes(changed_projects)
 
-	def _add_update_changes(self, changed_projects):
+	def _add_update_changes(self, changed_projects: List[int]):
 		for project in changed_projects:
 			changes = ChangeSet(project)
 			changes.status = self.get_event_by_id(project).status
 			self.patches.current_patch.add_change(changes)
+
+	def _cyclic_detection(self, project_id: int, change_set: ChangeSet):
+		pass
 
 	@property
 	def version(self):
