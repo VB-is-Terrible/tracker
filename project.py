@@ -81,6 +81,7 @@ class Project(JSONable):
                 else:
                         self.id = id
                 self.dependencies = []
+                self.depend_set = set()
                 self.meta = meta
                 self.desc = ''
                 self.successors = []
@@ -133,7 +134,7 @@ class Project(JSONable):
                 else:
                         return Status(0)
 
-        excludes = set(['system'])
+        excludes = set(['system', 'depend_set', 'successors'])
         includes = set(['status'])
 
         def json(self):
@@ -156,7 +157,8 @@ class Project(JSONable):
                 result = cls(system, name, required, meta = meta,
                              counter = counter)
                 result.progress = obj['progress']
-                result.dependencies = obj['dependencies']
+                for parent in result.dependencies:
+                        result.add_dependency(id)
                 result.desc = obj['desc']
                 result.update_status()
                 return result
@@ -203,18 +205,20 @@ class Project(JSONable):
                         raise DuplicateIdException(id, 'dependencies')
 
         def add_dependency(self, id: int):
-                if id in self.dependencies:
+                if id in self.depend_set:
                         raise DuplicateIdException(id, 'project.dependencies')
                 if id not in self.system.projects:
                         raise InvalidIdException(id)
                 self.dependencies.append(id)
+                self.depend_set.add(id)
                 parent = self.system.get_event_by_id(id)
-                parent.successors.append(id)
+                parent.successors.add(id)
 
         def remove_dependency(self, id: int):
-                if id not in self.dependencies:
+                if id not in self.depend_set:
                         raise InvalidIdException(id)
                 self.dependencies.remove(id)
+                self.depend_set.remove(id)
                 parent = self.system.get_event_by_id(id)
                 parent.successors.remove(id)
 
