@@ -6,6 +6,7 @@ from server import save
 from ChangeSet import ChangeSet
 from collections import deque
 from typing import List
+from ProjectError import CyclicDependencyException
 
 
 class System(JSONable):
@@ -82,7 +83,6 @@ class System(JSONable):
 			target.progress = change_set.progress
 		if change_set.required is not None:
 			target.required = change_set.required
-		# TODO: Cyclic detection
 		for id in change_set.dependencies_remove:
 			target.remove_dependency(id)
 		for id in change_set.dependencies_add:
@@ -107,6 +107,23 @@ class System(JSONable):
 			self.patches.current_patch.add_change(changes)
 
 	def _cyclic_detection(self, project_id: int, change_set: ChangeSet):
+		if len(change_set.dependencies_add) == 0 \
+			and len(change_set.dependencies_remove) == 0:
+			return True
+
+		target = self.get_event_by_id(project_id)
+		to_check = deque(
+			set(target.dependencies)
+			+ set(change_set.dependencies_add)
+			- set(change_set.dependencies_remove)
+		)
+		while len(to_check) != 0:
+			id = to_check.popleft()
+			project = self.get_event_by_id(id)
+			if project_id in project.depend_set:
+				raise CyclicDependencyException(project_id)
+			to_check.extend(project.dependencies)
+
 		pass
 
 	@property

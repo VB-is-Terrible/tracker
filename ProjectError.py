@@ -37,3 +37,10 @@ class DuplicateIdException(InputException):
 
         def __init__(self, invalid_id: int, field):
                 super().__init__(self.message.format(field, invalid_id))
+
+
+class CyclicDependencyException(InputException):
+        message = 'Modifing project <{}> would cause a cyclic dependency chain'
+
+        def __init__(self, project_id: int):
+                super().__init__(self.message.format(project_id))
