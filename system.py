@@ -84,9 +84,9 @@ class System(JSONable):
 			target.required = change_set.required
 		# TODO: Cyclic detection
 		for id in change_set.dependencies_remove:
-			target.dependencies.remove(id)
-		for id in change_set.dependencies_remove:
-			target.dependencies.remove(id)
+			target.remove_dependency(id)
+		for id in change_set.dependencies_add:
+			target.add_dependency(id)
 
 	def _update_status(self, project_id: int):
 		changed_projects = []

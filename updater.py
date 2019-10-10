@@ -100,6 +100,16 @@ updaters[7] = update7
 updaters[8] = update8
 
 
+def update9(persist, data):
+	for project in data.projects.values():
+		project.depend_set = set(project.dependencies)
+		project.successors = set(project.successors)
+	persist['update_version'] = 10
+
+
+updaters[9] = update9
+
+
 def update(persist, data):
 	run = False
 	old_version = None

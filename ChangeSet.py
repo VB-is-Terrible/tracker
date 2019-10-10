@@ -172,11 +172,11 @@ class ChangeSet(JSONable):
                 pass
                 if change_set.dependencies_add is not None:
                         for id in change_set.dependencies_add:
-                                if id in project.dependencies:
+                                if id in project.depend_set:
                                         raise DuplicateIdException(
                                                 id, 'project.dependencies')
 
                 if change_set.dependencies_remove is not None:
                         for id in change_set.dependencies_remove:
-                                if id not in project.dependencies:
+                                if id not in project.depend_set:
                                         raise InvalidIdException(id)
