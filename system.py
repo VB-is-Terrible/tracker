@@ -88,6 +88,11 @@ class System(JSONable):
 			target.remove_dependency(id)
 		for id in change_set.dependencies_add:
 			target.add_dependency(id)
+		if (
+			len(change_set.dependencies_add) != 0
+			or len(change_set.dependencies_remove) != 0
+		):
+			change_set.dependencies = target.dependencies
 
 	def _update_status(self, project_id: int):
 		changed_projects = []

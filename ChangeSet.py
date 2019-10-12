@@ -30,6 +30,7 @@ class ChangeSet(JSONable):
                 self.progress = None
                 self.dependencies_add = []
                 self.dependencies_remove = []
+                self.dependencies = []
                 self.meta = None
                 self.status = None
                 self.counter = None
