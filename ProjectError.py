@@ -44,3 +44,10 @@ class CyclicDependencyException(InputException):
 
         def __init__(self, project_id: int):
                 super().__init__(self.message.format(project_id))
+
+
+class NonEmptyPropertyException(InputException):
+        message = 'Field \'{}\' of {} must be left empty by clients'
+
+        def __init__(self, field: str, obj_name: str):
+                super().__init__(self.message.format(field, obj_name))

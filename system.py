@@ -60,6 +60,7 @@ class System(JSONable):
 		print(change_set)
 		target = self.get_event_by_id(change_set.id)
 		ChangeSet.validate_with_project(change_set, target)
+		ChangeSet.validate_empty_props(change_set)
 		self._cyclic_detection(change_set.id, change_set)
 		self._simple_changes(change_set)
 		self.patches.current_patch.add_change(change_set)

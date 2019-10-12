@@ -2,7 +2,7 @@ from json import loads
 from common import JSONable, check_duplicate_id
 from ProjectError import InvalidIdException, MissingFieldException, \
                          InvalidTypeException, InvalidProgressException, \
-                         DuplicateIdException
+                         DuplicateIdException, NonEmptyPropertyException
 
 
 BASIC_PROPS = ['name', 'desc', 'required',
@@ -180,3 +180,11 @@ class ChangeSet(JSONable):
                         for id in change_set.dependencies_remove:
                                 if id not in project.depend_set:
                                         raise InvalidIdException(id)
+
+        @staticmethod
+        def validate_empty_props(changeset):
+                if changeset.status is not None:
+                        raise NonEmptyPropertyException('status', 'ChangeSet')
+                if len(changeset.dependencies) != 0:
+                        raise NonEmptyPropertyException(
+                                'dependencies', 'ChangeSet')
