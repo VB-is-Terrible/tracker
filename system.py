@@ -63,6 +63,8 @@ class System(JSONable):
 		ChangeSet.validate_empty_props(change_set)
 		self._cyclic_detection(change_set.id, change_set)
 		self._simple_changes(change_set)
+		self._complex_changes(change_set)
+		self._update_status(change_set.id	)
 		self.patches.current_patch.add_change(change_set)
 
 	def _simple_changes(self, change_set: ChangeSet):
