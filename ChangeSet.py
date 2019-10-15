@@ -6,7 +6,7 @@ from ProjectError import InvalidIdException, MissingFieldException, \
 
 
 BASIC_PROPS = ['name', 'desc', 'required',
-               'progress', 'meta', 'counter']
+               'progress', 'meta', 'counter', 'status']
 ARRAY_PROPS = ['dependencies_add', 'dependencies_remove']
 TYPES = {
         'id': int,
