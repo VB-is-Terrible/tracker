@@ -16,6 +16,9 @@ const main = async () => {
 		projects.append(display);
 	}
 	console.log('done');
+        for (let obj of document.querySelectorAll('elements-drag-element')) {
+                // obj.hideWindow();
+        }
 };
 
 main();
